@@ -5,30 +5,45 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { NavMenuComponent } from './features/nav-menu/nav-menu.component';
+import { HomeComponent } from './features/home/home.component';
+import { InterceptorService } from '@services/interceptor.service';
+import { CookieService } from "ngx-cookie-service";
+import { AppRoutingModule } from './app-routing.module';
+import { RegisterComponent } from './features/register/register.component';
+import { LoginComponent } from './features/login/login.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { NgxsModule } from '@ngxs/store';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+import { AppState } from './app.state';
+
+const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    AppRoutingModule,
+    ReactiveFormsModule,
+    NgxsModule.forRoot(AppState),
+    SocketIoModule.forRoot(config)
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true,
+    deps: [CookieService]
+  },
+  CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

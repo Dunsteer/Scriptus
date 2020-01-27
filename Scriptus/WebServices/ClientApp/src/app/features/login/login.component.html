@@ -1,0 +1,18 @@
+<form
+  [formGroup]="loginForm"
+  (submit)="loginForm.valid && submit($event)"
+  class="mt-5 mx-5 px-5 d-flex flex-column justify-content-between"
+>
+  <span class="h5">Login</span>
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Username:</span>
+    <input type="text" formControlName="username" class="form-control" />
+  </label>
+
+  <label class="d-flex justify-content-start align-items-center">
+    <span class="mr-3" style="width: 100px;">Password:</span>
+    <input type="password" formControlName="password" class="form-control" />
+  </label>
+
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>

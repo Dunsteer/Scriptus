@@ -10,12 +10,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "paths": {
+      "@models/*": ["src/app/_core/models/*"],
+      "@store/*": ["src/app/_core/store/*"],
+      "@services/*": ["src/app/_core/services/*"]
+    }
   }
 }
