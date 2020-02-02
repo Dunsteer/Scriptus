@@ -17,12 +17,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  get firstName() {
-    return this.registerForm.get("firstName");
-  }
-
-  get lastName() {
-    return this.registerForm.get("lastName");
+  get fullName() {
+    return this.registerForm.get("fullName");
   }
 
   get email() {
@@ -43,8 +39,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      firstName: new FormControl(""),
-      lastName: new FormControl(""),
+      fullName: new FormControl(""),
       email: new FormControl(""),
       username: new FormControl(""),
       password: new FormControl(""),

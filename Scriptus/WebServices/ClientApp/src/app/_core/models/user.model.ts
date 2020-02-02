@@ -6,6 +6,7 @@ export interface User {
   rank?: eUserRank;
   fullName?: string;
   email?: string;
+  reputation?: number;
   additionalEmails?: string[];
   password?: string;
   confirmPassword?: string;

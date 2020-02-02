@@ -16,7 +16,7 @@ export class UserService {
 
   fetchTop(from: number, to: number): Observable<User[]> {
     return this._http.get<User[]>(
-      `${environment.serverUrl}/api/users/top/${from}/${to}`
+      `${environment.serverUrl}/api/users?sortMember=reputation`
     );
   }
 }
