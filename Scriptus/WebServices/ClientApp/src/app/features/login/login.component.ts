@@ -36,10 +36,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
     //e.preventDefault();
     this._store.dispatch(new AuthActions.Login(this.loginForm.value)).subscribe(
       () => {
-        this._router.navigateByUrl("/companies");
+        this._router.navigateByUrl("/");
       },
       err => {
-        alert(err);
+        console.error(err);
       }
     );
   }

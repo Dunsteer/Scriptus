@@ -61,7 +61,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           this._router.navigateByUrl("/");
         },
         err => {
-          alert(err);
+          console.error(err);
         }
       );
   }

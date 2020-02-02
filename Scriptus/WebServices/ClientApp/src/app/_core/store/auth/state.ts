@@ -18,11 +18,11 @@ const initialState: AuthState = {
 
 @State<AuthState>({ name: "auth", defaults: initialState })
 export class AuthStateManager {
-  constructor(private auth: AuthService, private _cookie: CookieService) {}
+  constructor(private _auth: AuthService, private _cookie: CookieService) {}
 
   @Action(AuthActions.Register)
   register(ctx: StateContext<AuthState>, action: AuthActions.Register) {
-    return this.auth.register(action.user).pipe(
+    return this._auth.register(action.user).pipe(
       map(res => {
         if (res) {
           ctx.dispatch(new AuthActions.Check(res.token));
@@ -30,7 +30,7 @@ export class AuthStateManager {
       }),
       catchError(err => {
         console.error(err);
-        return of(err);
+        throw of(err);
       })
     );
   }
@@ -38,7 +38,7 @@ export class AuthStateManager {
   @Action(AuthActions.Login)
   login(ctx: StateContext<AuthState>, action: AuthActions.Login) {
     const state = ctx.getState();
-    return this.auth.login(action.user).pipe(
+    return this._auth.login(action.user).pipe(
       map(res => {
         if (res) {
           this._cookie.set("token", res.token);
@@ -50,7 +50,7 @@ export class AuthStateManager {
       }),
       catchError(err => {
         console.error(err);
-        return of(err);
+        throw of(err);
       })
     );
   }
@@ -58,7 +58,7 @@ export class AuthStateManager {
   @Action(AuthActions.Check)
   check(ctx: StateContext<AuthState>, action: AuthActions.Check) {
     const state = ctx.getState();
-    return this.auth.check(action.token).pipe(
+    return this._auth.check(action.token).pipe(
       map(res => {
         if (res) {
           this._cookie.set("token", action.token);
@@ -70,7 +70,7 @@ export class AuthStateManager {
       }),
       catchError(err => {
         console.error(err);
-        return of(err);
+        throw of(err);
       })
     );
   }

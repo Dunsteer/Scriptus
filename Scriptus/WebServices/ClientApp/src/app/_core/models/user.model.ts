@@ -1,10 +1,10 @@
 import { eUserRank } from "../enumerators/user-rank.enum";
 
 export interface User {
+  id?: string;
   username?: string;
   rank?: eUserRank;
-  firstName?: string;
-  lastName?: string;
+  fullName?: string;
   email?: string;
   additionalEmails?: string[];
   password?: string;

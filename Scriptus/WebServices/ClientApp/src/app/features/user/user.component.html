@@ -1,0 +1,11 @@
+<ng-container *ngIf="found; else notFound">
+  <ng-container *ngIf="user$ | async as user; else noUser">
+    {{ user | json }} {{ id }}
+  </ng-container>
+  <ng-template #noUser>
+    {{ id }}
+  </ng-template>
+</ng-container>
+<ng-template #notFound>
+  User not found!
+</ng-template>
