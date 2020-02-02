@@ -12,6 +12,7 @@ namespace Commons.Models.User
         public short Rank { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public int Reputation { get; set; }
         public List<string> AditionalEmails { get; set; }
     }
 }
