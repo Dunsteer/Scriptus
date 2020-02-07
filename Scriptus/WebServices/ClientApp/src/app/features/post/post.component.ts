@@ -7,8 +7,6 @@ import { Observable } from "rxjs";
 import { PostStateManager, PostState } from "@store/post/state";
 import { Post } from "@models/post.model";
 import { PostActions } from "@store/post/actions";
-import { CommentActions } from "@store/comment/actions";
-import { CommentStateManager } from "@store/comment/state";
 
 @Component({
   selector: "app-post",
@@ -17,9 +15,13 @@ import { CommentStateManager } from "@store/comment/state";
 })
 export class PostComponent extends BaseComponent implements OnInit {
   @Select(PostStateManager.post) post$: Observable<Post>;
-  @Select(CommentStateManager.comments) comments$: Observable<Comment[]>;
   id: string;
   found = true;
+  selectedQuestionNumber: number = null;
+
+  reputation(post: Post): number {
+    return post.voteUps.length - post.voteDown.length;
+  }
 
   constructor(
     public _store: Store,
@@ -33,8 +35,7 @@ export class PostComponent extends BaseComponent implements OnInit {
     this._route.paramMap.subscribe(params => {
       this.id = params.get("id");
       this._store.dispatch(new PostActions.Fetch(this.id)).subscribe(
-        (state: PostState) => {
-          this._store.dispatch(new CommentActions.Fetch(this.id));
+        (post: { post: PostState }) => {
           this.found = true;
         },
         err => {
@@ -44,19 +45,23 @@ export class PostComponent extends BaseComponent implements OnInit {
     });
   }
 
-  loadMoreComments() {
-    this._store.dispatch(new CommentActions.Fetch(this.id));
-  }
-
-  loadReplies(id: string) {
-    this._store.dispatch(new CommentActions.FetchReplies(id));
+  createRange(number){
+    var items: number[] = [];
+    for(var i = 1; i <= number; i++){
+       items.push(i);
+    }
+    return items;
   }
 
   addComment(data: string) {
     this._store.dispatch(new PostActions.AddComment(this.id, data));
   }
 
-  addReply(id: string, data: string) {
-    this._store.dispatch(new CommentActions.AddReply(id, data));
+  filterComments(comments: Post[]) {
+    return comments.filter(
+      comment =>
+        comment.answerFor == this.selectedQuestionNumber ||
+        this.selectedQuestionNumber == null
+    );
   }
 }

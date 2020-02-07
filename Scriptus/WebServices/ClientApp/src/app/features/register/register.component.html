@@ -3,15 +3,10 @@
   (submit)="registerForm.valid && submit($event)"
   class="mt-5 mx-5 px-5 d-flex flex-column justify-content-between"
 >
-  <span class="h5">Register</span>
+  <span class="h5">Registracija</span>
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">First name:</span>
-    <input type="text" formControlName="firstName" class="form-control" />
-  </label>
-
-  <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Last name:</span>
-    <input type="text" formControlName="lastName" class="form-control" />
+    <span class="mr-3" style="width: 100px;">Puno ime:</span>
+    <input type="text" formControlName="fullName" class="form-control" />
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
@@ -20,14 +15,14 @@
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Username:</span>
+    <span class="mr-3" style="width: 100px;">Korisničko ime:</span>
     <input type="text" formControlName="username" class="form-control" />
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Password:</span>
+    <span class="mr-3" style="width: 100px;">Lozinka:</span>
     <input type="password" formControlName="password" class="form-control" />
   </label>
 
-  <button class="btn btn-primary" type="submit">Register</button>
+  <button class="btn btn-primary" type="submit">Registruj se</button>
 </form>
