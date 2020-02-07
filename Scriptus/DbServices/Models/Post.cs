@@ -16,5 +16,7 @@ namespace DbServices.Models
         public string UserId { get; set; }
         public User User { get; set; }
         public object Data { get; set; }
+
+        public Comment[] Comments { get; set; }
     }
 }
