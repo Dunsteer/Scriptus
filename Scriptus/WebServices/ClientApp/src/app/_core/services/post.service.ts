@@ -4,22 +4,43 @@ import { User } from "@models/user.model";
 import { environment } from "src/environments/environment";
 import { Observable, of } from "rxjs";
 import { Post } from "@models/post.model";
-import { Comment } from "@models/comment.model";
+import { Parser } from "./parser.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class PostService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private _parser: Parser) {}
 
   fetch(id: string): Observable<Post> {
     return this._http.get<Post>(`${environment.serverUrl}/api/posts/${id}`);
   }
 
-  addComment(id: string, data: string): Observable<Comment> {
+  search(tags: string[]): Observable<Post> {
+    return this._http.get<Post>(
+      `${environment.serverUrl}/api/posts`,
+      this._parser.objectToUrlParams(tags)
+    );
+  }
+
+  addComment(id: string, data: Post): Observable<Comment> {
     return this._http.post<Comment>(
       `${environment.serverUrl}/api/posts/${id}/comment/`,
-      data
+      this._parser.objectToUrlParams(data)
+    );
+  }
+
+  voteUp(id: string): Observable<number> {
+    return this._http.post<number>(
+      `${environment.serverUrl}/api/posts/${id}/vote-up/`,
+      null
+    );
+  }
+
+  voteDown(id: string): Observable<number> {
+    return this._http.post<number>(
+      `${environment.serverUrl}/api/posts/${id}/vote-down/`,
+      null
     );
   }
 }

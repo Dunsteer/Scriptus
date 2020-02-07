@@ -8,10 +8,8 @@ import { patch, updateItem, insertItem } from "@ngxs/store/operators";
 import { eUserRank } from "../../enumerators/user-rank.enum";
 import { CookieService } from "ngx-cookie-service";
 import { UserService } from "@services/user.service";
-import { CommentService } from "@services/comment.service";
 import { PostService } from "@services/post.service";
 import { Post } from "@models/post.model";
-import { CommentActions } from "@store/comment/actions";
 
 export interface PostState {
   post: Post;
@@ -33,9 +31,36 @@ export class PostStateManager {
       }),
       catchError(err => {
         console.error(err);
-        throw of(err);
+        ctx.patchState({
+          post: {
+            numberOfQuestions: 10,
+            name: "Kolokvijum I - 2017.",
+            id: "123",
+            tags: ["Matematika I", "Kolokvijum I", "2017"],
+            date:new Date(),
+            comments: [{ id: "12", answerFor: 2 }]
+          }
+        });
+        return of(err);
       })
     );
+  }
+
+  @Action(PostActions.Create)
+  create(ctx: StateContext<PostState>, action: PostActions.Create) {
+    // return this._post.fetch(action.id).pipe(
+    //   map(res => {
+    //     ctx.patchState({ post: res });
+    //   }),
+    //   catchError(err => {
+    //     console.error(err);
+    //     throw of(err);
+    //   })
+    // );
+
+    console.log("calledd");
+
+    return of(ctx.patchState({ post: { id: "12345" } }));
   }
 
   @Selector()

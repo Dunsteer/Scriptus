@@ -1,18 +1,91 @@
-<ng-container *ngIf="found; else notFound">
-  <ng-container *ngIf="post$ | async as post; else noPost">
-    {{ post | json }} {{ id }}
-    <ng-container *ngIf="comments$ | async as comments; else noComments">
-      {{ comments | json }}
-      <button (click)="loadMoreComments()">Load more comments</button>
+<div class="d-flex flex-column w-100">
+  <ng-container *ngIf="found; else notFound">
+    <ng-container *ngIf="post$ | async as post; else noPost">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-grow-1" style="height: 70px;">
+          <div
+            class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
+            style="flex-basis: 50px;"
+          >
+            <div class="h5 m-0">^</div>
+            <div class="h5 m-0">15</div>
+            <div class="h5 m-0">v</div>
+          </div>
+          <div class="d-flex h-100" style="flex-basis: 70px;">
+            <img
+              src="https://image.flaticon.com/icons/svg/61/61205.svg"
+              style="width: 100%;"
+            />
+          </div>
+          <div
+            class="d-flex h-100 flex-column justify-content-betweeen pl-4"
+            style="flex-basis: 250px;"
+          >
+            <h5 class="flex-grow-1 m-0 d-flex align-items-center">
+              Darko Mitic
+            </h5>
+            <h5 class="flex-grow-1 text-primary m-0 d-flex align-items-center">
+              Trusted
+            </h5>
+          </div>
+        </div>
+        <div class="flex-grow-0">
+          <div
+            class="d-flex w-100 h-100 justify-content-center align-items-center px-5 h3 border bg-dark text-white"
+          >
+            <span>{{ post.name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-2">
+        <div class="d-flex">
+          <h5>
+            <span
+              class="badge badge-primary mr-2"
+              *ngFor="let tag of post.tags"
+              >{{ tag }}</span
+            >
+          </h5>
+        </div>
+        <div class="h-100 d-flex align-items-center h5">
+          <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center btn-group">
+        <span class="h5 m-0 mr-3">Prikazi odgovore za:</span>
+        <button
+          [class.btn-primary]="item == selectedQuestionNumber"
+          [class.btn-outline-primary]="item != selectedQuestionNumber"
+          (click)="
+            selectedQuestionNumber =
+              item == selectedQuestionNumber ? null : item
+          "
+          class="flex-grow-1 btn rounded-0"
+          *ngFor="let item of createRange(post.numberOfQuestions)"
+        >
+          <span>{{ item }}</span>
+        </button>
+      </div>
+      <ng-container
+        *ngIf="
+          (selectedQuestionNumber || !selectedQuestionNumber) &&
+            filterComments(post.comments) as comments;
+          else noComments
+        "
+      >
+        <div class="d-flex" *ngFor="let comment of comments; let i = index">
+          {{ i + 1 }}
+        </div>
+      </ng-container>
+      <ng-template #noComments>
+        No comments.
+      </ng-template>
     </ng-container>
-    <ng-template #noComments>
-      No comments.
+    <ng-template #noPost>
+      {{ id }}
     </ng-template>
   </ng-container>
-  <ng-template #noPost>
-    {{ id }}
+  <ng-template #notFound>
+    Post not found!
   </ng-template>
-</ng-container>
-<ng-template #notFound>
-  Post not found!
-</ng-template>
+</div>

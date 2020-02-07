@@ -4,8 +4,17 @@ import { ePostType } from "../enumerators/post-type.enum";
 export interface Post {
   id?: string;
   type?: ePostType;
+  name?: string;
   userId?: string;
   user?: User;
   date?: Date;
-  data?: string;
+  tags?: string[];
+  text?: string;
+  images?: string[];
+  numberOfQuestions?: number;
+  pdf?: string;
+  comments?: Post[];
+  answerFor?: number;
+  voteUps?: User[];
+  voteDown?: User[];
 }

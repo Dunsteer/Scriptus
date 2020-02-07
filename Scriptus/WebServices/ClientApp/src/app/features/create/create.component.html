@@ -1,0 +1,37 @@
+<form
+  [formGroup]="createForm"
+  #form="ngForm"
+  (submit)="createForm.valid && submit($event, form)"
+  class="mt-5 mx-5 px-5 d-flex flex-column justify-content-between"
+>
+  <span class="h5">Kreiranje objava</span>
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Tip:</span>
+    <select formControlName="type" class="form-control" (change)="typeChanged($event.target.value)">
+      <option [value]="-1">Odaberi</option>
+      <option *ngFor="let type of allowedTypes" [value]="type">{{type }}</option>
+    </select>
+  </label>
+
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Naslov:</span>
+    <input type="text" formControlName="name" [placeholder]="namePlaceholder" class="form-control" />
+  </label>
+
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Tagovi:</span>
+    <input type="text" formControlName="tags" placeholder="tag 1, tag 2, tag123" class="form-control" />
+  </label>
+
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Tekst:</span>
+    <textarea type="text" formControlName="text" placeholder="" class="form-control" ></textarea>
+  </label>
+
+  <label class="d-flex justify-content-start align-items-center mt-3">
+    <span class="mr-3" style="width: 100px;">Broj pitanja:</span>
+    <input type="number" formControlName="numberOfQuestions" class="form-control" />
+  </label>
+
+  <button class="btn btn-primary" type="submit">Kreiraj</button>
+</form>
