@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Commons.Models.Post;
 using Commons.Models.User;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace BaseLogic.Services
             cfg.CreateMap<DbServices.Models.User, UserLoginResponseModel>();
             cfg.CreateMap<DbServices.Models.User, UserViewModel>();
             cfg.CreateMap<DbServices.Models.User, UserMinModel>();
+
+            cfg.CreateMap<DbServices.Models.Post, PostViewModel>();
+            cfg.CreateMap<DbServices.Models.Post, PostMinModel>();
         }
 
         public void SetConfiguration(MapperConfiguration cfg)

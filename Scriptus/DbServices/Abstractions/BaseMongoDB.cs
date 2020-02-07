@@ -49,7 +49,7 @@ namespace DbServices.Abstractions
 
         public async Task<DB> CreateOne(DB model)
         {
-            await _collection.InsertOneAsync(model);
+            await _collection.InsertOneAsync(model,new InsertOneOptions { BypassDocumentValidation = true});
             return model;
         }
 
