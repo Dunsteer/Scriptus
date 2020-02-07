@@ -74,8 +74,10 @@ namespace WebServices
             services.AddScoped<MapperService, MapperService>();
 
             services.AddScoped(typeof(IDataProvider<User>), typeof(UserDB));
+            services.AddScoped(typeof(IDataProvider<Post>), typeof(PostDB));
 
             services.AddScoped<BaseService<User>, UserService>();
+            services.AddScoped<BaseService<Post>, PostService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

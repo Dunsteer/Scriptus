@@ -8,15 +8,18 @@ namespace DbServices.Models
 {
     public class Post
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public short Type { get; set; }
         public DateTime Date { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
-        public object Data { get; set; }
-
-        public Comment[] Comments { get; set; }
+        public string[] Tags { get; set; }
+        public string Text { get; set; }
+        public string[] Images { get; set; }
+        public short NumberOfQuestions { get; set; }
+        public string Pdf { get; set; }
+        public Post[] Comments { get; set; }
+        public short? AnswerFor { get; set; }
+        public Guid UserId { get; set; }
+        public string[] VoteUp { get; set; }
+        public string[] VoteDown { get; set; }
     }
 }
