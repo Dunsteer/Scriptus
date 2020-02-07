@@ -2,13 +2,16 @@
 using BaseLogic.Services;
 using Commons.Models.User;
 using DbServices.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebServices.Helpers;
 
@@ -57,6 +60,28 @@ namespace WebServices.Controllers.Api
                 _logger.LogError($"@UserController.Authenticate: {message}");
                 return BadRequest(message);
             }
+        }
+
+        [HttpGet("microsoft-auth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> MicrosoftAuthenticate()
+        {
+            return new ChallengeResult(Microsoft.AspNetCore.Authentication.MicrosoftAccount.MicrosoftAccountDefaults.AuthenticationScheme, new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("HandleMicrosoftLogin", new { returnUrl = "123" })
+            });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("microsoft-callback")]
+        public async Task<IActionResult> HandleMicrosoftLogin(string returnUrl = null)
+        {
+            var authenticateResult = await HttpContext.AuthenticateAsync(Microsoft.AspNetCore.Authentication.MicrosoftAccount.MicrosoftAccountDefaults.AuthenticationScheme);
+
+            if (!authenticateResult.Succeeded)
+                return BadRequest();
+
+            return Ok();
         }
 
         [HttpPost("register")]
