@@ -17,7 +17,7 @@ namespace BaseLogic.Services
 {
     public class UserService : BaseService<User>
     {
-        public UserService( IDataProvider<User> db, MapperService mapper) : base(db, mapper)
+        public UserService(IDataProvider<User> db, MapperService mapper) : base(db, mapper)
         {
         }
 
@@ -56,13 +56,13 @@ namespace BaseLogic.Services
             return response;
         }
 
-        public async Task<UserLoginResponseModel> AuthenticateExternal(Guid id,string fullname, string email, string secret, int validFor = 7)
+        public async Task<UserLoginResponseModel> AuthenticateExternal(Guid id, string fullname, string email, string secret, int validFor = 7)
         {
             var userDB = _database as UserDB;
 
             var user = await userDB.ReadOne(id);
 
-            if(user == null)
+            if (user == null)
             {
                 user = await userDB.CreateOne(new User
                 {
@@ -72,7 +72,7 @@ namespace BaseLogic.Services
                     Password = "",
                     Rank = 0,
                     Reputation = 0,
-                    Username = fullname.ToLower().Replace(" ","")
+                    Username = fullname.ToLower().Replace(" ", "")
                 });
             }
 
@@ -82,6 +82,7 @@ namespace BaseLogic.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("id", user.Id.ToString()),
                     new Claim("username", user.Username)
                 }),
                 Expires = DateTime.UtcNow.AddDays(validFor),
@@ -99,7 +100,7 @@ namespace BaseLogic.Services
         {
             if (mail == null) return null;
 
-            return (await _database.ReadMany(new UserSearchModel() { Email = mail})).FirstOrDefault();
+            return (await _database.ReadMany(new UserSearchModel() { Email = mail })).FirstOrDefault();
         }
 
         public async Task<User> ResetPassword(User user, string oldPassword, string newPassword, string confirmPassword)
