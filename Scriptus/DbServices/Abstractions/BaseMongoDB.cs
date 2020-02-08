@@ -14,7 +14,7 @@ namespace DbServices.Abstractions
     {
         protected virtual IMongoCollection<DB> _collection { get; set; }
 
-        protected virtual string PropertyIdName => $"{typeof(DB).Name}Id";
+        protected virtual string PropertyIdName => $"Id";
 
         public object DbContext => throw new NotImplementedException();
 
