@@ -1,5 +1,7 @@
-﻿using DbServices.Abstractions;
+﻿using Commons.Models.Post;
+using DbServices.Abstractions;
 using DbServices.Models;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,36 @@ namespace DbServices.DataProviders
         {
 
         }
-        public override Task<IQueryable<Post>> ReadMany(object search, bool populate)
+        public override async Task<IQueryable<Post>> ReadMany(object o, bool populate)
         {
-            return base.ReadMany(search, populate);
-        }
+            var search = o as PostSearchModel;
+            if (search == null) return await base.ReadMany(search, populate);
 
+            var builder = Builders<Post>.Filter;
+            var sorter = Builders<Post>.Sort;
+
+            FilterDefinition<Post> filter = builder.Empty;
+            SortDefinition<Post> sort = sorter.Descending("LogTime");
+
+            if (search.Tags != null)
+            {
+                foreach (var tag in search.Tags)
+                {
+                    filter = filter & builder.Where(p => p.Tags.Any(x => x.ToLower().Contains(tag.ToLower())));
+                }
+            }
+
+            var result = _collection.Find(filter);
+
+            if (search.Page.HasValue && search.PageSize.HasValue && search.PageSize.HasValue)
+            {
+                var skip = search.Page.Value * search.PageSize.Value;
+                var take = search.PageSize.Value;
+
+                return result.Sort(sort).Skip(skip).Limit(take).ToList().AsQueryable();
+            }
+
+            return result.Sort(sort).ToList().AsQueryable();
+        }
     }
 }

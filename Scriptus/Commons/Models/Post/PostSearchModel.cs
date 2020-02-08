@@ -7,5 +7,6 @@ namespace Commons.Models.Post
 {
     public class PostSearchModel : PagerBase
     {
+        public string[] Tags { get; set; }
     }
 }

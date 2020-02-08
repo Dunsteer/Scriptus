@@ -26,7 +26,7 @@ namespace DbServices.DataProviders
             var sorter = Builders<User>.Sort;
 
             FilterDefinition<User> filter = builder.Empty;
-            SortDefinition<User> sort = sorter.Descending("LogTime");
+            SortDefinition<User> sort = sorter.Descending("Username");
 
             if (!String.IsNullOrEmpty(search.Id))
             {
@@ -40,7 +40,7 @@ namespace DbServices.DataProviders
 
             if (!String.IsNullOrEmpty(search.Password))
             {
-                filter = filter & builder.Where(u => u.Password.Contains(search.Password));
+                filter = filter & builder.Where(u => u.Password.Equals(search.Password));
             }
 
             if (!String.IsNullOrEmpty(search.Email))
