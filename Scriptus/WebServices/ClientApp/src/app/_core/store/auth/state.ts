@@ -25,7 +25,7 @@ export class AuthStateManager {
     return this._auth.register(action.user).pipe(
       map(res => {
         if (res) {
-          ctx.dispatch(new AuthActions.Check(res.token));
+          ctx.dispatch(new AuthActions.Check());
         }
       }),
       catchError(err => {
@@ -58,10 +58,9 @@ export class AuthStateManager {
   @Action(AuthActions.Check)
   check(ctx: StateContext<AuthState>, action: AuthActions.Check) {
     const state = ctx.getState();
-    return this._auth.check(action.token).pipe(
+    return this._auth.check().pipe(
       map(res => {
         if (res) {
-          this._cookie.set("token", action.token);
           return ctx.setState({
             ...state,
             user: res.user

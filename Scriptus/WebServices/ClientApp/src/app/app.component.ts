@@ -11,9 +11,8 @@ export class AppComponent implements OnInit {
   constructor(private _store: Store, private _cookie: CookieService) {}
 
   ngOnInit(): void {
-    const token = this._cookie.get("token");
-    if (token) {
-      this._store.dispatch(new AuthActions.Check(token));
+    if (this._cookie.check("token")) {
+      this._store.dispatch(new AuthActions.Check());
     }
   }
 }

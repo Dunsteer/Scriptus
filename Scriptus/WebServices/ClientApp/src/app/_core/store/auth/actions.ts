@@ -13,7 +13,7 @@ export namespace AuthActions {
 
   export class Check {
     static readonly type = "[AUTH] Check";
-    constructor(public token: string) { }
+    constructor() { }
   }
 
   export class Logout {
