@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DbServices.Models
@@ -21,5 +22,8 @@ namespace DbServices.Models
         public Guid UserId { get; set; }
         public string[] VoteUp { get; set; }
         public string[] VoteDown { get; set; }
+        
+        [NotMapped]
+        public User User { get; set; }
     }
 }

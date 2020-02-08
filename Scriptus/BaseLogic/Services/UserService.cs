@@ -43,6 +43,7 @@ namespace BaseLogic.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("id", user.Id.ToString()),
                     new Claim("username", user.Username)
                 }),
                 Expires = DateTime.UtcNow.AddDays(validFor),
@@ -72,7 +73,7 @@ namespace BaseLogic.Services
                     Password = "",
                     Rank = 0,
                     Reputation = 0,
-                    Username = fullname.ToLower().Replace(" ", "")
+                    Username = email.Split("@")[0]
                 });
             }
 

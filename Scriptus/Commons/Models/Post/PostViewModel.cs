@@ -19,5 +19,7 @@ namespace Commons.Models.Post
         public string UserId { get; set; }
         public string[] VoteUp { get; set; }
         public string[] VoteDown { get; set; }
+
+        public User.UserViewModel User { get; set; }
     }
 }
