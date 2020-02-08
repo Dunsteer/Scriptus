@@ -81,6 +81,7 @@
       <div
         *ngIf="
           (selectedQuestionNumber || !selectedQuestionNumber) &&
+            filterComments(post.comments).length > 0 &&
             filterComments(post.comments) as comments;
           else noComments
         "
