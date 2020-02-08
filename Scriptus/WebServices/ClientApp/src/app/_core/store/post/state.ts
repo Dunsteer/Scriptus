@@ -33,26 +33,7 @@ export class PostStateManager {
       }),
       catchError(err => {
         console.error(err);
-        ctx.patchState({
-          post: {
-            numberOfQuestions: 10,
-            name: "Kolokvijum I - 2017.",
-            id: "123",
-            tags: ["Matematika I", "Kolokvijum I", "2017"],
-            user: { fullName: "Darko Mitic", reputation: 500 },
-            date: new Date(),
-            comments: [
-              {
-                id: "12",
-                answerFor: 2,
-                user: { fullName: "Darko Mitic", reputation: 500 },
-                date: new Date(),
-                tags: []
-              }
-            ]
-          }
-        });
-        return err;
+        throw err;
       })
     );
   }
@@ -64,46 +45,8 @@ export class PostStateManager {
         ctx.patchState({ posts: res });
       }),
       catchError(err => {
-        ctx.patchState({
-          posts: [
-            {
-              numberOfQuestions: 10,
-              name: "Kolokvijum I - 2017.",
-              id: "123",
-              tags: ["Matematika I", "Kolokvijum I", "2017"],
-              user: { fullName: "Darko Mitic", reputation: 500 },
-              date: new Date(),
-              comments: [
-                {
-                  id: "12",
-                  answerFor: 2,
-                  user: { fullName: "Darko Mitic", reputation: 500 },
-                  date: new Date(),
-                  tags: []
-                }
-              ]
-            },
-            {
-              numberOfQuestions: 10,
-              name: "Kolokvijum I - 2017.",
-              id: "123",
-              tags: ["Matematika I", "Kolokvijum I", "2017"],
-              user: { fullName: "Darko Mitic", reputation: 500 },
-              date: new Date(),
-              comments: [
-                {
-                  id: "12",
-                  answerFor: 2,
-                  user: { fullName: "Darko Mitic", reputation: 500 },
-                  date: new Date(),
-                  tags: []
-                }
-              ]
-            }
-          ]
-        });
         console.error(err);
-        return of(err);
+        throw of(err);
       })
     );
   }

@@ -33,14 +33,14 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow" *ngIf="!(user$ | async)">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Prijava</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/register']"
               >Registracija</a
             >
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link text-dark" href="/api/users/microsoft-auth">
               <img
