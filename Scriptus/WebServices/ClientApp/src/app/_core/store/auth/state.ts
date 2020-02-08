@@ -63,7 +63,7 @@ export class AuthStateManager {
         if (res) {
           return ctx.setState({
             ...state,
-            user: res.user
+            user: res
           });
         }
       }),

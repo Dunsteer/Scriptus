@@ -11,6 +11,7 @@ import { SearchComponent } from "./features/search/search.component";
 const routes: Routes = [
   //{ path: "register", component: RegisterComponent },
   //{ path: "login", component: LoginComponent },
+  { path: "user", component: UserComponent },
   { path: "user/:id", component: UserComponent },
   { path: "post/:id", component: PostComponent },
   { path: "create", component: CreateComponent },
