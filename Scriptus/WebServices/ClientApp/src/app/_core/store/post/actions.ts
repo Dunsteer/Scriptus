@@ -7,6 +7,11 @@ export namespace PostActions {
     constructor(public id: string) {}
   }
 
+  export class Search {
+    static readonly type = "[POST] Search";
+    constructor(public tags: string[]) {}
+  }
+
   export class AddComment {
     static readonly type = "[POST] Add comment";
     constructor(public id: string, public data: string) {}

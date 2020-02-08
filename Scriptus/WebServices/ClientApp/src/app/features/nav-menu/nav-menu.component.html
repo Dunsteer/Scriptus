@@ -4,6 +4,19 @@
   >
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">Learn Lab</a>
+      <form class="form-inline" (submit)="search(input.value)">
+        <input
+          id="searchInput"
+          #input
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Pretraga"
+          aria-label="Traži"
+        />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          Search
+        </button>
+      </form>
       <button
         class="navbar-toggler"
         type="button"
@@ -20,13 +33,6 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow" *ngIf="!(user$ | async)">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Početna</a>
-          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Prijava</a>
           </li>
@@ -35,16 +41,16 @@
               >Registracija</a
             >
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/api/users/microsoft-auth">
+              <img
+                src="https://sip.elfak.ni.ac.rs/assets/template/landing/img/logo.png"
+                width="60"
+            /></a>
+          </li>
         </ul>
 
         <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/user']">{{
               user.username

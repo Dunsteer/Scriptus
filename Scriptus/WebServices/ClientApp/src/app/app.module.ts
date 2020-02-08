@@ -21,6 +21,7 @@ import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { UserComponent } from "./features/user/user.component";
 import { PostComponent } from "./features/post/post.component";
 import { CreateComponent } from "./features/create/create.component";
+import { SearchComponent } from "./features/search/search.component";
 
 const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
 
@@ -33,7 +34,8 @@ const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
     LoginComponent,
     UserComponent,
     PostComponent,
-    CreateComponent
+    CreateComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

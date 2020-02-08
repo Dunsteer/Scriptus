@@ -1,0 +1,38 @@
+<div>
+  <div class="mr-3 mb-3">Rezultati pretrage:</div>
+  <div *ngIf="posts.length > 0; else noPosts">
+    <div
+      *ngFor="let post of posts"
+      class="d-flex justify-content-between mb-2 border p-2"
+    >
+      <div class="d-flex flex-column">
+        <div class="h4 pointer" [routerLink]="['/post', post.id]">{{ post.name }}</div>
+        <div
+          class="d-flex justify-content-between mt-3"
+          *ngIf="post.tags && post.tags.length > 0"
+        >
+          <div class="d-flex">
+            <h5>
+              <span
+                [routerLink]="['/search', tag]"
+                class="badge badge-primary mr-2 pointer"
+                *ngFor="let tag of post.tags"
+                >{{ tag }}</span
+              >
+            </h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column">
+        <div class="h6">{{ post.user.fullName }}</div>
+        <div class="h-100 d-flex align-items-center h6">
+          <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noPosts>
+    <div>Nema rezultata.</div>
+  </ng-template>
+</div>

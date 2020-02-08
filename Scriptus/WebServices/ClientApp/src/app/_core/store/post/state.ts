@@ -13,10 +13,12 @@ import { Post } from "@models/post.model";
 
 export interface PostState {
   post: Post;
+  posts: Post[];
 }
 
 const initialState: PostState = {
-  post: null
+  post: null,
+  posts: []
 };
 
 @State<PostState>({ name: "post", defaults: initialState })
@@ -50,6 +52,57 @@ export class PostStateManager {
             ]
           }
         });
+        return err;
+      })
+    );
+  }
+
+  @Action(PostActions.Search)
+  search(ctx: StateContext<PostState>, action: PostActions.Search) {
+    return this._post.search(action.tags).pipe(
+      map(res => {
+        ctx.patchState({ posts: res });
+      }),
+      catchError(err => {
+        ctx.patchState({
+          posts: [
+            {
+              numberOfQuestions: 10,
+              name: "Kolokvijum I - 2017.",
+              id: "123",
+              tags: ["Matematika I", "Kolokvijum I", "2017"],
+              user: { fullName: "Darko Mitic", reputation: 500 },
+              date: new Date(),
+              comments: [
+                {
+                  id: "12",
+                  answerFor: 2,
+                  user: { fullName: "Darko Mitic", reputation: 500 },
+                  date: new Date(),
+                  tags: []
+                }
+              ]
+            },
+            {
+              numberOfQuestions: 10,
+              name: "Kolokvijum I - 2017.",
+              id: "123",
+              tags: ["Matematika I", "Kolokvijum I", "2017"],
+              user: { fullName: "Darko Mitic", reputation: 500 },
+              date: new Date(),
+              comments: [
+                {
+                  id: "12",
+                  answerFor: 2,
+                  user: { fullName: "Darko Mitic", reputation: 500 },
+                  date: new Date(),
+                  tags: []
+                }
+              ]
+            }
+          ]
+        });
+        console.error(err);
         return of(err);
       })
     );

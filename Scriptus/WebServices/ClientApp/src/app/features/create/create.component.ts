@@ -72,6 +72,8 @@ export class CreateComponent extends BaseComponent implements OnInit {
       numberOfQuestions: new FormControl(1),
       pdf: new FormControl(null)
     });
+    
+    this.clearSearch();
   }
 
   typeChanged(type: string) {

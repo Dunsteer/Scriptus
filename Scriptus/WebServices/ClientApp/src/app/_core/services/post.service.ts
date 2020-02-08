@@ -16,8 +16,8 @@ export class PostService {
     return this._http.get<Post>(`${environment.serverUrl}/api/posts/${id}`);
   }
 
-  search(tags: string[]): Observable<Post> {
-    return this._http.get<Post>(
+  search(tags: string[]): Observable<Post[]> {
+    return this._http.get<Post[]>(
       `${environment.serverUrl}/api/posts`,
       this._parser.objectToUrlParams(tags)
     );
@@ -28,6 +28,10 @@ export class PostService {
       `${environment.serverUrl}/api/posts`,
       this._parser.objectToUrlParams(post)
     );
+  }
+
+  remove(id: string) {
+    return this._http.delete<any>(`${environment.serverUrl}/api/posts/${id}`);
   }
 
   addComment(id: string, data: Post): Observable<Comment> {

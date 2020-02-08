@@ -39,5 +39,7 @@ export class UserComponent extends BaseComponent implements OnInit {
         }
       );
     });
+
+    this.clearSearch();
   }
 }

@@ -30,6 +30,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
       username: new FormControl(""),
       password: new FormControl("")
     });
+    
+    this.clearSearch();
   }
 
   submit(e) {

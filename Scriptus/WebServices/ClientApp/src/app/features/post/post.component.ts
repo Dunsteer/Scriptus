@@ -43,6 +43,8 @@ export class PostComponent extends BaseComponent implements OnInit {
         }
       );
     });
+    
+    this.clearSearch();
   }
 
   createRange(number){

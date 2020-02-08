@@ -45,6 +45,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
       password: new FormControl(""),
       confirmPassword: new FormControl("")
     });
+     
+    this.clearSearch();
   }
 
   submit(e) {
