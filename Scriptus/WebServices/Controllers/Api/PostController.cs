@@ -40,5 +40,17 @@ namespace WebServices.Controllers.Api
             _REST.PUT.Allowed = false;
             _REST.DELETE.Allowed = false;
         }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> GetAll([FromQuery] PostSearchModel search, [FromQuery] bool min = false)
+        {
+            return base.GetAll(search, min);
+        }
+
+        [AllowAnonymous]
+        public override Task<IActionResult> Get(Guid id, [FromQuery] bool min = false)
+        {
+            return base.Get(id, min);
+        }
     }
 }

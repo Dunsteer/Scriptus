@@ -101,7 +101,7 @@ namespace WebServices.Controllers
         }
 
         [HttpGet("{id}")]
-        public virtual async Task<IActionResult> Get(string id, [FromQuery] bool min = false)
+        public virtual async Task<IActionResult> Get(Guid id, [FromQuery] bool min = false)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace WebServices.Controllers
         }
 
         [HttpPatch("{id}")]
-        public virtual async Task<IActionResult> Patch(string id, [FromBody]JsonPatchDocument<DB> patch, [FromQuery] bool min = false)
+        public virtual async Task<IActionResult> Patch(Guid id, [FromBody]JsonPatchDocument<DB> patch, [FromQuery] bool min = false)
         {
             try
             {
