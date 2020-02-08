@@ -16,10 +16,10 @@ export class PostService {
     return this._http.get<Post>(`${environment.serverUrl}/api/posts/${id}`);
   }
 
-  search(tags: string[]): Observable<Post[]> {
-    return this._http.get<Post[]>(
+  search(tags: string[]): Observable<{ list: Post[]; count: number }> {
+    return this._http.get<{ list: Post[]; count: number }>(
       `${environment.serverUrl}/api/posts`,
-      this._parser.objectToUrlParams(tags)
+      { params: this._parser.objectToUrlParams({ tags }) }
     );
   }
 

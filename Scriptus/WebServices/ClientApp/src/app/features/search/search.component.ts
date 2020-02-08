@@ -30,9 +30,11 @@ export class SearchComponent extends BaseComponent implements OnInit {
     this._route.paramMap.subscribe(params => {
       this.terms = params.get("terms");
       const tags = this.terms.split("+");
+      console.log(tags);
       this._store.dispatch(new PostActions.Search(tags)).subscribe(
         (state: { post: PostState }) => {
           this.posts = state.post.posts;
+          console.log(this.posts)
         },
         err => {
           this.posts = [];

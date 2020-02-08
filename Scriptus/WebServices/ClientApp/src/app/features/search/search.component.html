@@ -1,3 +1,4 @@
+<title>Colab learn - Pretraga</title>
 <div>
   <div class="mr-3 mb-3">Rezultati pretrage:</div>
   <div *ngIf="posts.length > 0; else noPosts">
@@ -6,7 +7,9 @@
       class="d-flex justify-content-between mb-2 border p-2"
     >
       <div class="d-flex flex-column">
-        <div class="h4 pointer" [routerLink]="['/post', post.id]">{{ post.name }}</div>
+        <div class="h4 pointer" [routerLink]="['/post', post.id]">
+          {{ post.name }}
+        </div>
         <div
           class="d-flex justify-content-between mt-3"
           *ngIf="post.tags && post.tags.length > 0"

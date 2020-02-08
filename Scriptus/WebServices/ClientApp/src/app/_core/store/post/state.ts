@@ -42,7 +42,7 @@ export class PostStateManager {
   search(ctx: StateContext<PostState>, action: PostActions.Search) {
     return this._post.search(action.tags).pipe(
       map(res => {
-        ctx.patchState({ posts: res });
+        ctx.patchState({ posts: res.list });
       }),
       catchError(err => {
         console.error(err);
