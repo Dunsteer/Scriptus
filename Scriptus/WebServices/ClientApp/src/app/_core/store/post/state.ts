@@ -37,8 +37,17 @@ export class PostStateManager {
             name: "Kolokvijum I - 2017.",
             id: "123",
             tags: ["Matematika I", "Kolokvijum I", "2017"],
-            date:new Date(),
-            comments: [{ id: "12", answerFor: 2 }]
+            user: { fullName: "Darko Mitic", reputation: 500 },
+            date: new Date(),
+            comments: [
+              {
+                id: "12",
+                answerFor: 2,
+                user: { fullName: "Darko Mitic", reputation: 500 },
+                date: new Date(),
+                tags: []
+              }
+            ]
           }
         });
         return of(err);

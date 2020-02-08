@@ -23,6 +23,13 @@ export class PostService {
     );
   }
 
+  create(post: Post): Observable<Post> {
+    return this._http.post<Post>(
+      `${environment.serverUrl}/api/posts`,
+      this._parser.objectToUrlParams(post)
+    );
+  }
+
   addComment(id: string, data: Post): Observable<Comment> {
     return this._http.post<Comment>(
       `${environment.serverUrl}/api/posts/${id}/comment/`,

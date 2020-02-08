@@ -10,5 +10,6 @@ export interface User {
   additionalEmails?: string[];
   password?: string;
   confirmPassword?: string;
+  profileImage?: string;
   token?: string;
 }

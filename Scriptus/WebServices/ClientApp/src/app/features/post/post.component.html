@@ -1,57 +1,68 @@
 <div class="d-flex flex-column w-100">
   <ng-container *ngIf="found; else notFound">
     <ng-container *ngIf="post$ | async as post; else noPost">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex flex-grow-1" style="height: 70px;">
-          <div
-            class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
-            style="flex-basis: 50px;"
-          >
-            <div class="h5 m-0">^</div>
-            <div class="h5 m-0">15</div>
-            <div class="h5 m-0">v</div>
-          </div>
-          <div class="d-flex h-100" style="flex-basis: 70px;">
-            <img
-              src="https://image.flaticon.com/icons/svg/61/61205.svg"
-              style="width: 100%;"
-            />
-          </div>
-          <div
-            class="d-flex h-100 flex-column justify-content-betweeen pl-4"
-            style="flex-basis: 250px;"
-          >
-            <h5 class="flex-grow-1 m-0 d-flex align-items-center">
-              Darko Mitic
-            </h5>
-            <h5 class="flex-grow-1 text-primary m-0 d-flex align-items-center">
-              Trusted
-            </h5>
-          </div>
-        </div>
-        <div class="flex-grow-0">
-          <div
-            class="d-flex w-100 h-100 justify-content-center align-items-center px-5 h3 border bg-dark text-white"
-          >
-            <span>{{ post.name }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-between mt-2">
-        <div class="d-flex">
-          <h5>
-            <span
-              class="badge badge-primary mr-2"
-              *ngFor="let tag of post.tags"
-              >{{ tag }}</span
+      <div style="background-color: #ececec;" class="p-3">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-grow-1" style="height: 70px;">
+            <div
+              class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
+              style="flex-basis: 50px;"
             >
-          </h5>
+              <div class="h5 m-0">^</div>
+              <div class="h5 m-0">15</div>
+              <div class="h5 m-0">v</div>
+            </div>
+            <div class="d-flex h-100" style="flex-basis: 70px;">
+              <img
+                src=""
+                [src]="
+                  post.user.profileImage
+                    ? post.user.profileImage
+                    : 'https://image.flaticon.com/icons/svg/61/61205.svg'
+                "
+                style="width: 100%;"
+              />
+            </div>
+            <div
+              class="d-flex h-100 flex-column justify-content-betweeen pl-4"
+              style="flex-basis: 250px;"
+            >
+              <h5 class="flex-grow-1 m-0 d-flex align-items-center">
+                {{ post.user.fullName }}
+              </h5>
+              <h5
+                class="flex-grow-1 text-primary m-0 d-flex align-items-center"
+              >
+                {{ post.user.reputation }}
+              </h5>
+            </div>
+          </div>
+          <div class="flex-grow-0">
+            <div
+              class="d-flex w-100 h-100 justify-content-center align-items-center px-5 h3 border bg-dark text-white"
+            >
+              <span>{{ post.name }}</span>
+            </div>
+          </div>
         </div>
-        <div class="h-100 d-flex align-items-center h5">
-          <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
+        <div class="d-flex justify-content-between mt-3">
+          <div class="d-flex">
+            <h5>
+              <span
+                class="badge badge-primary mr-2"
+                *ngFor="let tag of post.tags"
+                >{{ tag }}</span
+              >
+            </h5>
+          </div>
+          <div class="h-100 d-flex align-items-center h6">
+            <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
+          </div>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center btn-group">
+      <div
+        class="d-flex justify-content-between align-items-center btn-group my-4"
+      >
         <span class="h5 m-0 mr-3">Prikazi odgovore za:</span>
         <button
           [class.btn-primary]="item == selectedQuestionNumber"
@@ -66,17 +77,72 @@
           <span>{{ item }}</span>
         </button>
       </div>
-      <ng-container
+
+      <div
         *ngIf="
           (selectedQuestionNumber || !selectedQuestionNumber) &&
             filterComments(post.comments) as comments;
           else noComments
         "
+        class="border p-3"
       >
-        <div class="d-flex" *ngFor="let comment of comments; let i = index">
-          {{ i + 1 }}
-        </div>
-      </ng-container>
+        <ng-container *ngFor="let comment of comments; let i = index">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-grow-1" style="height: 70px;">
+              <div
+                class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
+                style="flex-basis: 50px;"
+              >
+                <div class="h5 m-0">^</div>
+                <div class="h5 m-0">15</div>
+                <div class="h5 m-0">v</div>
+              </div>
+              <div class="d-flex h-100" style="flex-basis: 70px;">
+                <img
+                  [src]="
+                    comment.user.profileImage
+                      ? comment.user.profileImage
+                      : 'https://image.flaticon.com/icons/svg/61/61205.svg'
+                  "
+                  style="width: 100%;"
+                />
+              </div>
+              <div
+                class="d-flex h-100 flex-column justify-content-betweeen pl-4"
+                style="flex-basis: 250px;"
+              >
+                <h5 class="flex-grow-1 m-0 d-flex align-items-center">
+                  {{ comment.user.fullName }}
+                </h5>
+                <h5
+                  class="flex-grow-1 text-primary m-0 d-flex align-items-center"
+                >
+                  {{ comment.user.reputation }}
+                </h5>
+              </div>
+            </div>
+            <div class="h-100 d-flex align-items-center h6">
+              <span
+                >Kreirano: {{ comment.date | date: "dd/MM/yyyy HH:mm" }}</span
+              >
+            </div>
+          </div>
+          <div
+            class="d-flex justify-content-between mt-3"
+            *ngIf="comment.tags && comment.tags.length > 0"
+          >
+            <div class="d-flex">
+              <h5>
+                <span
+                  class="badge badge-primary mr-2"
+                  *ngFor="let tag of comment.tags"
+                  >{{ tag }}</span
+                >
+              </h5>
+            </div>
+          </div>
+        </ng-container>
+      </div>
       <ng-template #noComments>
         No comments.
       </ng-template>
