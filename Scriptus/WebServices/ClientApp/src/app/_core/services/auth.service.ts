@@ -24,9 +24,7 @@ export class AuthService {
     );
   }
 
-  check(): Observable<{ user: User }> {
-    return this._http.get<{ user: User }>(
-      `${environment.serverUrl}/api/users/check`
-    );
+  check(): Observable<User> {
+    return this._http.get<User>(`${environment.serverUrl}/api/users/check`);
   }
 }
