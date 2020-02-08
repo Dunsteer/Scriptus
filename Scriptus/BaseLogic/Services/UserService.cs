@@ -56,6 +56,45 @@ namespace BaseLogic.Services
             return response;
         }
 
+        public async Task<UserLoginResponseModel> AuthenticateExternal(Guid id,string fullname, string email, string secret, int validFor = 7)
+        {
+            var userDB = _database as UserDB;
+
+            var user = await userDB.ReadOne(id);
+
+            if(user == null)
+            {
+                user = await userDB.CreateOne(new User
+                {
+                    Email = email,
+                    FullName = fullname,
+                    Id = id,
+                    Password = "",
+                    Rank = 0,
+                    Reputation = 0,
+                    Username = fullname.ToLower().Replace(" ","")
+                });
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("username", user.Username)
+                }),
+                Expires = DateTime.UtcNow.AddDays(validFor),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            var response = _mapper.Get().Map<UserLoginResponseModel>(user);
+            response.Token = tokenHandler.WriteToken(token);
+
+            return response;
+        }
+
         public async Task<User> GetByMail(string mail)
         {
             if (mail == null) return null;

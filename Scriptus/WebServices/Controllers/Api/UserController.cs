@@ -81,7 +81,17 @@ namespace WebServices.Controllers.Api
             if (!authenticateResult.Succeeded)
                 return BadRequest();
 
-            return Ok();
+            var claims = authenticateResult.Principal.Claims;
+
+            var id = Guid.Parse(claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            var fullname = claims.First(x => x.Type == ClaimTypes.Name).Value;
+            var email = claims.First(x => x.Type == ClaimTypes.Email).Value;
+
+            var res = await _userService.AuthenticateExternal(id, fullname, email, _appSettings.Value.Secret);
+
+            Response.Cookies.Append("token", res.Token,new Microsoft.AspNetCore.Http.CookieOptions { Expires=DateTime.UtcNow.AddDays(7)});
+
+            return Redirect(Url.Content("~/"));
         }
 
         [HttpPost("register")]

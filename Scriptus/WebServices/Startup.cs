@@ -42,9 +42,12 @@ namespace WebServices
 
             var appSettings = appSettingsSection.Get<AppSettings>();
 
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
             services.AddAuthentication(options => {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.MicrosoftAccount.MicrosoftAccountDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
             .AddCookie()
             .AddMicrosoftAccount(microsoftOptions =>
@@ -53,6 +56,18 @@ namespace WebServices
                 microsoftOptions.ClientSecret = appSettings.ClientSecret;
                 microsoftOptions.AuthorizationEndpoint = "https://login.microsoftonline.com/elfak.rs/oauth2/v2.0/authorize";
                 //microsoftOptions.CallbackPath = "/signin-microsoft";
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                };
             });
 
             //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
