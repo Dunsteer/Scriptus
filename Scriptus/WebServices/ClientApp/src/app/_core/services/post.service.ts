@@ -54,4 +54,18 @@ export class PostService {
       null
     );
   }
+
+  voteUpComment(id: string, parentId: string): Observable<Post> {
+    return this._http.post<Post>(
+      `${environment.serverUrl}/api/posts/${parentId}/vote-up/${id}`,
+      null
+    );
+  }
+
+  voteDownComment(id: string, parentId: string): Observable<Post> {
+    return this._http.post<Post>(
+      `${environment.serverUrl}/api/posts/${parentId}/vote-down/${id}`,
+      null
+    );
+  }
 }

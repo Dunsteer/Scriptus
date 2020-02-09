@@ -35,7 +35,7 @@
         </div>
         <ng-container *ngIf="user$ | async as user">
           <div
-            *ngIf="user.id == post.user.id || user.rank == 0"
+            *ngIf="user.id == post.user.id || hasPermission(user)"
             class="text-danger pointer"
             (click)="remove(post.id)"
           >
