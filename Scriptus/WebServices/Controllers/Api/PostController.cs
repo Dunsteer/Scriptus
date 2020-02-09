@@ -145,7 +145,7 @@ namespace WebServices.Controllers.Api
                 var comment = post.Comments.FirstOrDefault(x => x.Id == commentId);
                 if (comment != null)
                 {
-                    PostVoteUp(post, UserId);
+                    PostVoteUp(comment, UserId);
 
                     await _postService.Update(id, post);
 
