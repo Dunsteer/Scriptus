@@ -20,8 +20,9 @@ namespace DbServices.Models
         public Post[] Comments { get; set; }
         public short? AnswerFor { get; set; }
         public Guid UserId { get; set; }
-        public string[] VoteUp { get; set; }
-        public string[] VoteDown { get; set; }
+        public Guid[] VoteUp { get; set; }
+        public Guid[] VoteDown { get; set; }
+        public string Name { get; set; }
         
         [NotMapped]
         public User User { get; set; }
