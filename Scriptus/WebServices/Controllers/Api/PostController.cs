@@ -121,7 +121,7 @@ namespace WebServices.Controllers.Api
             {
                 if (formFile.Length > 0 && fileExtensions.Contains(Path.GetExtension(formFile.FileName)))
                 {
-                    var filePath = Path.Combine(_appSettings.Value.UploadPath, $"{Path.GetFileNameWithoutExtension(Path.GetRandomFileName())}.{Path.GetExtension(formFile.FileName)}");
+                    var filePath = Path.Combine(_appSettings.Value.UploadPath, $"{Path.GetFileNameWithoutExtension(Path.GetRandomFileName())}{Path.GetExtension(formFile.FileName)}");
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
