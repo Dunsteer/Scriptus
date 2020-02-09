@@ -68,10 +68,7 @@ namespace WebServices.Controllers.Api
                 await _postService.Update(id, post);
             }
 
-            var type = _REST.GET.MapTo;
-            if (type == null) return Ok(post);
-
-            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+            return Map(post, false);
         }
 
         [HttpPost("{id}/vote-down")]
@@ -86,10 +83,7 @@ namespace WebServices.Controllers.Api
                 await _postService.Update(id, post);
             }
 
-            var type = _REST.GET.MapTo;
-            if (type == null) return Ok(post);
-
-            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+            return Map(post, false);
         }
 
         public override async Task<IActionResult> Delete(Guid id, [FromQuery] bool min = true)
@@ -153,10 +147,7 @@ namespace WebServices.Controllers.Api
                 }
             }
 
-            var type = _REST.GET.MapTo;
-            if (type == null) return Ok(post);
-
-            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+            return Map(post, false);
         }
 
         [HttpPost("{id}/vote-down/{commentId}")]
@@ -177,10 +168,7 @@ namespace WebServices.Controllers.Api
                 }
             }
 
-            var type = _REST.GET.MapTo;
-            if (type == null) return Ok(post);
-
-            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+            return Map(post, false);
         }
 
         private void PostVoteUp(Post post, Guid UserId)
@@ -234,6 +222,21 @@ namespace WebServices.Controllers.Api
             model.UserId = UserId;
 
             return base.Create(model, min);
+        }
+
+        [HttpPost("{id}/comment")]
+        public async Task<IActionResult> CreateComment(Guid id,[FromBody] Post model)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                post.Comments.Add(model);
+
+                await _postService.Update(id,post);
+            }
+
+            return Map(post, false);
         }
     }
 }

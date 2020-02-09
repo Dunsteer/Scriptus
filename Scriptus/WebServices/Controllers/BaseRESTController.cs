@@ -271,5 +271,13 @@ namespace WebServices.Controllers
                 return BadRequest(message);
             }
         }
+
+        protected IActionResult Map(DB model, bool min)
+        {
+            var type = min ? _REST.PATCH.MapToMin : _REST.PATCH.MapTo;
+            if (type == null) return Ok(model);
+
+            return Ok(_mapper.Get().Map(model, typeof(DB), type));
+        }
     }
 }

@@ -26,6 +26,18 @@ namespace BaseLogic.Services
             return post;
         }
 
+        public override async Task<Post> Update(object id, Post model)
+        {
+            var post = await base.Update(id, model);
+
+            if (post != null)
+            {
+                post = await this.Get(id);
+            }
+            
+            return post;
+        }
+
         public override async ValueTask<Post> Get(object id)
         {
             var post = await base.Get(id);
