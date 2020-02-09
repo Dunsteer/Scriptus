@@ -9,9 +9,9 @@ namespace Commons.Models.Post
         public string Id { get; set; }
         public short Type { get; set; }
         public DateTime Date { get; set; }
-        public string[] Tags { get; set; }
+        public List<string> Tags { get; set; }
         public string Text { get; set; }
-        public string[] Images { get; set; }
+        public List<string> Images { get; set; }
         public short NumberOfQuestions { get; set; }
         public string Pdf { get; set; }
         public List<PostMinModel> Comments { get; set; }
