@@ -108,7 +108,8 @@ namespace WebServices.Controllers.Api
             return BadRequest();
         }
 
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        [HttpPost("file-upload")]
+        public async Task<IActionResult> UploadAsync(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
@@ -128,9 +129,6 @@ namespace WebServices.Controllers.Api
                     paths.Add(filePath);
                 }
             }
-
-            // Process uploaded files
-            // Don't rely on or trust the FileName property without validation.
 
             return Ok(new { count = files.Count, size, paths });
         }
