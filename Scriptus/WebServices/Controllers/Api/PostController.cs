@@ -65,7 +65,7 @@ namespace WebServices.Controllers.Api
             {
                 PostVoteUp(post, UserId);
 
-                await _postService.Update(id,post);
+                await _postService.Update(id, post);
             }
 
             var type = _REST.GET.MapTo;
@@ -108,6 +108,8 @@ namespace WebServices.Controllers.Api
             return BadRequest();
         }
 
+        List<string> fileExtensions = new List<string>() { "png", "jpg", "jpeg", "gif", "pdf" };
+
         [HttpPost("file-upload")]
         public async Task<IActionResult> UploadAsync(List<IFormFile> files)
         {
@@ -117,7 +119,7 @@ namespace WebServices.Controllers.Api
 
             foreach (var formFile in files)
             {
-                if (formFile.Length > 0)
+                if (formFile.Length > 0 && fileExtensions.Contains(Path.GetExtension(formFile.FileName)))
                 {
                     var filePath = Path.Combine(_appSettings.Value.UploadPath, $"{Path.GetFileNameWithoutExtension(Path.GetRandomFileName())}.{Path.GetExtension(formFile.FileName)}");
 
@@ -126,7 +128,7 @@ namespace WebServices.Controllers.Api
                         await formFile.CopyToAsync(stream);
                     }
 
-                    paths.Add(filePath.Replace("/wwwroot",""));
+                    paths.Add(filePath.Replace("/wwwroot", ""));
                 }
             }
 
@@ -134,7 +136,7 @@ namespace WebServices.Controllers.Api
         }
 
         [HttpPost("{id}/vote-up/{commentId}")]
-        public async Task<IActionResult> CommentVoteUp(Guid id,Guid commentId)
+        public async Task<IActionResult> CommentVoteUp(Guid id, Guid commentId)
         {
             var post = await _postService.Get(id);
 
@@ -172,7 +174,7 @@ namespace WebServices.Controllers.Api
                     await _postService.Update(id, post);
 
                     post = comment;
-                }  
+                }
             }
 
             var type = _REST.GET.MapTo;
