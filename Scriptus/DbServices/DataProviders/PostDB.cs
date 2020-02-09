@@ -27,11 +27,14 @@ namespace DbServices.DataProviders
             FilterDefinition<Post> filter = builder.Empty;
             SortDefinition<Post> sort = sorter.Descending("LogTime");
 
-            if (search.Tags != null)
+            if (search.Tags != null && search.Tags.Length > 0)
             {
                 foreach (var tag in search.Tags)
                 {
-                    filter = filter & builder.Where(p => p.Tags.Any(x => x.ToLower().Contains(tag.ToLower())));
+                    if (!string.IsNullOrWhiteSpace(tag))
+                    {
+                        filter = filter & builder.Where(p => p.Tags.Any(x => x.ToLower().Contains(tag.ToLower())));
+                    }
                 }
             }
 

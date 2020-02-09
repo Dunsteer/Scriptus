@@ -14,11 +14,11 @@ namespace Commons.Models.Post
         public string[] Images { get; set; }
         public short NumberOfQuestions { get; set; }
         public string Pdf { get; set; }
-        public PostViewModel[] Comments { get; set; }
+        public List<PostViewModel> Comments { get; set; }
         public short? AnswerFor { get; set; }
         public string UserId { get; set; }
-        public string[] VoteUp { get; set; }
-        public string[] VoteDown { get; set; }
+        public List<Guid> VoteUp { get; set; }
+        public List<Guid> VoteDown { get; set; }
         public string Name { get; set; }
 
         public User.UserViewModel User { get; set; }

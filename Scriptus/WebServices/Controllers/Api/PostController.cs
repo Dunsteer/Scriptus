@@ -52,5 +52,71 @@ namespace WebServices.Controllers.Api
         {
             return base.Get(id, min);
         }
+
+        [HttpPost("{id}/vote-up")]
+        public async Task<IActionResult> VoteUp(Guid id)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                if (post.VoteUp != null && !post.VoteUp.Contains(id))
+                {
+                    post.VoteUp.Add(id);
+                }
+                else
+                {
+                    if (post.VoteUp != null)
+                    {
+                        post.VoteUp.Remove(id);
+                    }    
+                }
+
+                if (post.VoteDown != null && post.VoteDown.Contains(id))
+                {
+                    post.VoteDown.Remove(id);
+                }
+
+                await _postService.Update(id,post);
+            }
+
+            var type = _REST.GET.MapTo;
+            if (type == null) return Ok(post);
+
+            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+        }
+
+        [HttpPost("{id}/vote-down")]
+        public async Task<IActionResult> VoteDown(Guid id)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                if (post.VoteDown != null && !post.VoteDown.Contains(id))
+                {
+                    post.VoteDown.Add(id);
+                }
+                else
+                {
+                    if (post.VoteDown != null)
+                    {
+                        post.VoteDown.Remove(id);
+                    }
+                }
+
+                if (post.VoteUp != null && post.VoteUp.Contains(id))
+                {
+                    post.VoteUp.Remove(id);
+                }
+
+                await _postService.Update(id, post);
+            }
+
+            var type = _REST.GET.MapTo;
+            if (type == null) return Ok(post);
+
+            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+        }
     }
 }

@@ -17,11 +17,11 @@ namespace DbServices.Models
         public string[] Images { get; set; }
         public short NumberOfQuestions { get; set; }
         public string Pdf { get; set; }
-        public Post[] Comments { get; set; }
+        public List<Post> Comments { get; set; }
         public short? AnswerFor { get; set; }
         public Guid UserId { get; set; }
-        public Guid[] VoteUp { get; set; }
-        public Guid[] VoteDown { get; set; }
+        public List<Guid> VoteUp { get; set; }
+        public List<Guid> VoteDown { get; set; }
         public string Name { get; set; }
         
         [NotMapped]
