@@ -40,7 +40,6 @@ namespace WebServices.Controllers.Api
             _REST.DELETE.MapToMin = typeof(PostMinModel);
 
             _REST.PUT.Allowed = false;
-            _REST.DELETE.Allowed = false;
         }
 
         [AllowAnonymous]
