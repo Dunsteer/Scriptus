@@ -7,6 +7,8 @@ import { Observable } from "rxjs";
 import { PostStateManager, PostState } from "@store/post/state";
 import { Post } from "@models/post.model";
 import { PostActions } from "@store/post/actions";
+import { AuthStateManager } from "@store/auth/state";
+import { User } from "@models/user.model";
 
 @Component({
   selector: "app-search",
@@ -14,6 +16,7 @@ import { PostActions } from "@store/post/actions";
   styleUrls: ["./search.component.scss"]
 })
 export class SearchComponent extends BaseComponent implements OnInit {
+  @Select(AuthStateManager.user) user: Observable<User>;
   terms: string;
   found = true;
   posts: Post[] = [];
@@ -29,21 +32,22 @@ export class SearchComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this._route.paramMap.subscribe(params => {
       this.terms = params.get("terms");
-      const tags = this.terms.split("+");
-      console.log(tags);
+      let tags = null;
+      if (this.terms) {
+        tags = this.terms.split(" ");
+        (document.querySelector(
+          "#searchInput"
+        ) as HTMLInputElement).value = this.terms;
+      }
       this._store.dispatch(new PostActions.Search(tags)).subscribe(
         (state: { post: PostState }) => {
           this.posts = state.post.posts;
-          console.log(this.posts)
+          console.log(this.posts);
         },
         err => {
           this.posts = [];
         }
       );
-
-      (document.querySelector(
-        "#searchInput"
-      ) as HTMLInputElement).value = this.terms.replace('+', ' ');
     });
   }
 }

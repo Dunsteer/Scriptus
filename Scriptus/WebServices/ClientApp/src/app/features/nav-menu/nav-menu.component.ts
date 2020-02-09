@@ -21,7 +21,7 @@ export class NavMenuComponent extends BaseComponent {
     this.isExpanded = !this.isExpanded;
   }
   search(text: string) {
-    text = text.replace(' ', "+");
+    text = text.trim();
     this._router.navigateByUrl(`/search/${text}`);
   }
 }

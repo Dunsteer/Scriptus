@@ -19,7 +19,7 @@ export class PostService {
   search(tags: string[]): Observable<{ list: Post[]; count: number }> {
     return this._http.get<{ list: Post[]; count: number }>(
       `${environment.serverUrl}/api/posts`,
-      { params: this._parser.objectToUrlParams({ tags }) }
+      tags ? { params: this._parser.objectToUrlParams({ tags }) } : undefined
     );
   }
 

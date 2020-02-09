@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: "user/:id", component: UserComponent },
   { path: "post/:id", component: PostComponent },
   { path: "create", component: CreateComponent },
+  { path: "search", component: SearchComponent },
   { path: "search/:terms", component: SearchComponent },
   { path: "", component: HomeComponent }
 ];
