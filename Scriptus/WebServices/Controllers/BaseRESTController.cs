@@ -208,7 +208,7 @@ namespace WebServices.Controllers
         }
 
         [HttpDelete("{id}")]
-        public virtual async Task<IActionResult> Delete(string id, [FromQuery] bool min = true)
+        public virtual async Task<IActionResult> Delete(Guid id, [FromQuery] bool min = true)
         {
             try
             {

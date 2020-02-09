@@ -20,12 +20,14 @@ namespace WebServices.Controllers.Api
     public class PostController : BaseRESTController<Post, PostSearchModel>
     {
         private readonly PostService _postService;
+        private readonly UserService _userService;
         private readonly IOptions<AppSettings> _appSettings;
 
-        public PostController(BaseService<Post> postService, MapperService mapper, IOptions<AppSettings> appSettings, ILogger<PostController> logger) : base(postService, mapper, logger)
+        public PostController(BaseService<User> userService, BaseService<Post> postService, MapperService mapper, IOptions<AppSettings> appSettings, ILogger<PostController> logger) : base(postService, mapper, logger)
         {
             // BaseService<AccessToken> accessTokenService, MapperService mapper, ILogger<AccessToken> logger): base(accessTokenService, mapper, logger)
             _postService = (PostService)postService;
+            _userService = (UserService)userService;
             _appSettings = appSettings;
 
             _REST.GET.MapTo = typeof(PostViewModel);
@@ -60,21 +62,21 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                if (post.VoteUp != null && !post.VoteUp.Contains(id))
+                if (post.VoteUp != null && !post.VoteUp.Contains(UserId))
                 {
-                    post.VoteUp.Add(id);
+                    post.VoteUp.Add(UserId);
                 }
                 else
                 {
                     if (post.VoteUp != null)
                     {
-                        post.VoteUp.Remove(id);
+                        post.VoteUp.Remove(UserId);
                     }    
                 }
 
-                if (post.VoteDown != null && post.VoteDown.Contains(id))
+                if (post.VoteDown != null && post.VoteDown.Contains(UserId))
                 {
-                    post.VoteDown.Remove(id);
+                    post.VoteDown.Remove(UserId);
                 }
 
                 await _postService.Update(id,post);
@@ -93,21 +95,21 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                if (post.VoteDown != null && !post.VoteDown.Contains(id))
+                if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
                 {
-                    post.VoteDown.Add(id);
+                    post.VoteDown.Add(UserId);
                 }
                 else
                 {
                     if (post.VoteDown != null)
                     {
-                        post.VoteDown.Remove(id);
+                        post.VoteDown.Remove(UserId);
                     }
                 }
 
-                if (post.VoteUp != null && post.VoteUp.Contains(id))
+                if (post.VoteUp != null && post.VoteUp.Contains(UserId))
                 {
-                    post.VoteUp.Remove(id);
+                    post.VoteUp.Remove(UserId);
                 }
 
                 await _postService.Update(id, post);
@@ -117,6 +119,22 @@ namespace WebServices.Controllers.Api
             if (type == null) return Ok(post);
 
             return Ok(_mapper.Get().Map(post, typeof(Post), type));
+        }
+
+        public override async Task<IActionResult> Delete(Guid id, [FromQuery] bool min = true)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                var user = await _userService.Get(this.UserId);
+                if (post.UserId == this.UserId || user.Rank == 1)
+                {
+                    return await base.Delete(id, min);
+                }
+            }
+
+            return BadRequest();
         }
     }
 }

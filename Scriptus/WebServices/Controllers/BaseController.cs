@@ -8,6 +8,7 @@ namespace WebServices.Controllers
 {
     public class BaseController : ControllerBase
     {
+        protected Guid UserId => Guid.Parse(IdStr);
         protected string IdStr => User.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
         protected string Username => User.Claims.FirstOrDefault(x => x.Type == "username")?.Value;
         protected bool LoggedIn => User.Claims.Any();
