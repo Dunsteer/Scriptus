@@ -7,6 +7,8 @@ import { Observable } from "rxjs";
 import { PostStateManager, PostState } from "@store/post/state";
 import { Post } from "@models/post.model";
 import { PostActions } from "@store/post/actions";
+import { AuthStateManager } from "@store/auth/state";
+import { User } from "@models/user.model";
 
 @Component({
   selector: "app-post",
@@ -65,15 +67,18 @@ export class PostComponent extends BaseComponent implements OnInit {
   }
 
   voteUp(id: string, parentId?: string) {
-    this._store.dispatch(new PostActions.VoteUp(id, parentId)).subscribe(this.refresh);
+    this._store
+      .dispatch(new PostActions.VoteUp(id, parentId))
+      .subscribe(this.refresh);
   }
 
   voteDown(id: string, parentId?: string) {
-    this._store.dispatch(new PostActions.VoteDown(id, parentId)).subscribe(this.refresh);
+    this._store
+      .dispatch(new PostActions.VoteDown(id, parentId))
+      .subscribe(this.refresh);
   }
 
   refresh() {
-    this.changed = false;
-    this.changed = true;
+    this.changed = !this.changed;
   }
 }

@@ -16,7 +16,6 @@ import { User } from "@models/user.model";
   styleUrls: ["./search.component.scss"]
 })
 export class SearchComponent extends BaseComponent implements OnInit {
-  @Select(AuthStateManager.user) user: Observable<User>;
   terms: string;
   found = true;
   posts: Post[] = [];

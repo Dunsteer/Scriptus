@@ -29,7 +29,7 @@ export class PostStateManager {
   fetch(ctx: StateContext<PostState>, action: PostActions.Fetch) {
     return this._post.fetch(action.id).pipe(
       map(res => {
-        ctx.patchState({ post: res });
+        return ctx.patchState({ post: res });
       }),
       catchError(err => {
         console.error(err);
@@ -42,7 +42,7 @@ export class PostStateManager {
   search(ctx: StateContext<PostState>, action: PostActions.Search) {
     return this._post.search(action.tags).pipe(
       map(res => {
-        ctx.patchState({ posts: res.list });
+        return ctx.patchState({ posts: res.list });
       }),
       catchError(err => {
         console.error(err);
@@ -73,19 +73,17 @@ export class PostStateManager {
     return this._post.voteUp(action.id).pipe(
       map(res => {
         if (action.parentId) {
-          ctx.setState(
-            patch<PostState>({
-              post: res
-            })
-          );
-        } else {
-          ctx.setState(
+          return ctx.setState(
             patch<PostState>({
               post: patch<Post>({
                 comments: updateItem<Post>(x => x.id == action.id, res)
               })
             })
           );
+        } else {
+          return ctx.patchState({
+            post: res
+          });
         }
       }),
       catchError(err => {
@@ -100,19 +98,17 @@ export class PostStateManager {
     return this._post.voteDown(action.id).pipe(
       map(res => {
         if (action.parentId) {
-          ctx.setState(
-            patch<PostState>({
-              post: res
-            })
-          );
-        } else {
-          ctx.setState(
+          return ctx.setState(
             patch<PostState>({
               post: patch<Post>({
                 comments: updateItem<Post>(x => x.id == action.id, res)
               })
             })
           );
+        } else {
+          return ctx.patchState({
+            post: res
+          });
         }
       }),
       catchError(err => {
