@@ -17,6 +17,15 @@ namespace BaseLogic.Services
             _userService = (UserService)userService;
         }
 
+        public override async Task<Post> Create(Post model)
+        {
+            var post = await base.Create(model);
+
+            post.User = await _userService.Get(post.UserId);
+
+            return post;
+        }
+
         public override async ValueTask<Post> Get(object id)
         {
             var post = await base.Get(id);
