@@ -11,7 +11,7 @@ namespace DbServices.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public short Type { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
         public string[] Tags { get; set; }
         public string Text { get; set; }
         public string[] Images { get; set; }
@@ -23,7 +23,7 @@ namespace DbServices.Models
         public List<Guid> VoteUp { get; set; }
         public List<Guid> VoteDown { get; set; }
         public string Name { get; set; }
-        
+
         [NotMapped]
         public User User { get; set; }
     }
