@@ -102,7 +102,7 @@ namespace WebServices.Controllers.Api
             return BadRequest();
         }
 
-        List<string> fileExtensions = new List<string>() { "png", "jpg", "jpeg", "gif", "pdf" };
+        List<string> fileExtensions = new List<string>() { ".png", ".jpg", ".jpeg", ".gif", ".pdf" };
 
         [HttpPost("file-upload")]
         public async Task<IActionResult> UploadAsync(List<IFormFile> files)

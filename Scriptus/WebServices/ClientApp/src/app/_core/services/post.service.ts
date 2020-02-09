@@ -72,7 +72,7 @@ export class PostService {
   uploadFiles(files: FileList): Observable<{ count: number; paths: string[] }> {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
+      formData.append("files", files[i], files[i].name);
     }
 
     return this._http.post<{ count: number; paths: string[] }>(
@@ -83,7 +83,7 @@ export class PostService {
 
   uploadFile(file: File): Observable<{ count: number; paths: string[] }> {
     const formData = new FormData();
-    formData.append("files", file);
+    formData.append("files", file, file.name);
 
     return this._http.post<{ count: number; paths: string[] }>(
       `${environment.serverUrl}/api/posts/file-upload`,

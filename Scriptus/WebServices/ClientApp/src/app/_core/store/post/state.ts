@@ -185,7 +185,6 @@ export class PostStateManager {
   fileUpload(ctx: StateContext<PostState>, action: PostActions.FileUpload) {
     return this._post.uploadFile(action.file).pipe(
       map(res => {
-        console.log(res);
         return ctx.setState(
           patch<PostState>({
             uploadedPdf: res.paths[0]
