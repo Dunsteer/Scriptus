@@ -187,7 +187,7 @@
             </div>
             <ng-container *ngIf="user$ | async as user">
               <div
-                *ngIf="user.id == comment.user.id || user.rank == 0"
+                *ngIf="user.id == comment.user.id || hasPermission(user)"
                 class="text-danger pointer"
                 (click)="remove(comment.id)"
               >

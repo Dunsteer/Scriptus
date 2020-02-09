@@ -125,7 +125,7 @@ export class PostStateManager {
     ctx: StateContext<PostState>,
     action: PostActions.VoteUpComment
   ) {
-    return this._post.voteUp(action.id).pipe(
+    return this._post.voteUpComment(action.id, action.parentId).pipe(
       map(res => {
         return ctx.setState(
           patch<PostState>({
@@ -147,7 +147,7 @@ export class PostStateManager {
     ctx: StateContext<PostState>,
     action: PostActions.VoteDownComment
   ) {
-    return this._post.voteDown(action.id).pipe(
+    return this._post.voteDownComment(action.id, action.parentId).pipe(
       map(res => {
         return ctx.setState(
           patch<PostState>({

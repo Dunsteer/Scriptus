@@ -15,6 +15,10 @@ export class BaseComponent {
     return post.voteUp.length - post.voteDown.length;
   }
 
+  hasPermission(user: User) {
+    return user.rank == 1;
+  }
+
   clearSearch() {
     (document.querySelector("#searchInput") as HTMLInputElement).value = "";
   }
