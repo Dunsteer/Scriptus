@@ -15,6 +15,6 @@ export interface Post {
   pdf?: string;
   comments?: Post[];
   answerFor?: number;
-  voteUps?: User[];
+  voteUp?: User[];
   voteDown?: User[];
 }

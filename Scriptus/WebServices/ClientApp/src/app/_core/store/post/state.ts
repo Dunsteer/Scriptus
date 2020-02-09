@@ -68,6 +68,60 @@ export class PostStateManager {
     return of(ctx.patchState({ post: { id: "12345" } }));
   }
 
+  @Action(PostActions.VoteUp)
+  voteUp(ctx: StateContext<PostState>, action: PostActions.VoteUp) {
+    return this._post.voteUp(action.id).pipe(
+      map(res => {
+        if (action.parentId) {
+          ctx.setState(
+            patch<PostState>({
+              post: res
+            })
+          );
+        } else {
+          ctx.setState(
+            patch<PostState>({
+              post: patch<Post>({
+                comments: updateItem<Post>(x => x.id == action.id, res)
+              })
+            })
+          );
+        }
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.VoteDown)
+  voteDown(ctx: StateContext<PostState>, action: PostActions.VoteDown) {
+    return this._post.voteDown(action.id).pipe(
+      map(res => {
+        if (action.parentId) {
+          ctx.setState(
+            patch<PostState>({
+              post: res
+            })
+          );
+        } else {
+          ctx.setState(
+            patch<PostState>({
+              post: patch<Post>({
+                comments: updateItem<Post>(x => x.id == action.id, res)
+              })
+            })
+          );
+        }
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
   @Selector()
   static state(state: PostState) {
     return state;
