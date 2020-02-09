@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbServices.Abstractions
 {
-    public abstract class BaseMongoDB<DB> : IDataProvider<DB> where DB : class
+    public abstract class BaseMongoDB<DB> : IDataProvider<DB> where DB : class, new()
     {
         protected virtual IMongoCollection<DB> _collection { get; set; }
 
@@ -71,7 +71,7 @@ namespace DbServices.Abstractions
             var filter = Builders<DB>.Filter.Eq(PropertyIdName, id);
 
             var result = await _collection.DeleteOneAsync(filter);
-            return null;
+            return new DB();
         }
 
         public async Task<DB> PatchOne(object id, JsonPatchDocument<DB> patch)
