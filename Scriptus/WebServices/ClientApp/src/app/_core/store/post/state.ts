@@ -94,19 +94,9 @@ export class PostStateManager {
   voteUp(ctx: StateContext<PostState>, action: PostActions.VoteUp) {
     return this._post.voteUp(action.id).pipe(
       map(res => {
-        if (action.parentId) {
-          return ctx.setState(
-            patch<PostState>({
-              post: patch<Post>({
-                comments: updateItem<Post>(x => x.id == action.id, res)
-              })
-            })
-          );
-        } else {
-          return ctx.patchState({
-            post: res
-          });
-        }
+        return ctx.patchState({
+          post: res
+        });
       }),
       catchError(err => {
         console.error(err);
@@ -119,19 +109,53 @@ export class PostStateManager {
   voteDown(ctx: StateContext<PostState>, action: PostActions.VoteDown) {
     return this._post.voteDown(action.id).pipe(
       map(res => {
-        if (action.parentId) {
-          return ctx.setState(
-            patch<PostState>({
-              post: patch<Post>({
-                comments: updateItem<Post>(x => x.id == action.id, res)
-              })
+        return ctx.patchState({
+          post: res
+        });
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.VoteUpComment)
+  voteUpComment(
+    ctx: StateContext<PostState>,
+    action: PostActions.VoteUpComment
+  ) {
+    return this._post.voteUp(action.id).pipe(
+      map(res => {
+        return ctx.setState(
+          patch<PostState>({
+            post: patch<Post>({
+              comments: updateItem<Post>(x => x.id == action.id, res)
             })
-          );
-        } else {
-          return ctx.patchState({
-            post: res
-          });
-        }
+          })
+        );
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.VoteDownComment)
+  voteDownComment(
+    ctx: StateContext<PostState>,
+    action: PostActions.VoteDownComment
+  ) {
+    return this._post.voteDown(action.id).pipe(
+      map(res => {
+        return ctx.setState(
+          patch<PostState>({
+            post: patch<Post>({
+              comments: updateItem<Post>(x => x.id == action.id, res)
+            })
+          })
+        );
       }),
       catchError(err => {
         console.error(err);

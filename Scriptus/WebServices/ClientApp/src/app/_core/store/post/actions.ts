@@ -29,11 +29,21 @@ export namespace PostActions {
 
   export class VoteUp {
     static readonly type = "[POST] Vote up";
-    constructor(public id: string, public parentId: string) {}
+    constructor(public id: string,) {}
   }
 
   export class VoteDown {
     static readonly type = "[POST] Vote down";
+    constructor(public id: string) {}
+  }
+
+  export class VoteUpComment {
+    static readonly type = "[POST] Vote up comment";
+    constructor(public id: string, public parentId: string) {}
+  }
+
+  export class VoteDownComment {
+    static readonly type = "[POST] Vote down comment";
     constructor(public id: string, public parentId: string) {}
   }
 }

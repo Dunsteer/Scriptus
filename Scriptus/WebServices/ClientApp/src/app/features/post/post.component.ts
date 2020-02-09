@@ -59,23 +59,36 @@ export class PostComponent extends BaseComponent implements OnInit {
   }
 
   filterComments(comments: Post[]) {
-    return comments.filter(
-      comment =>
+    console.log(comments);
+    return comments.filter(comment => {
+      console.log(comment);
+      return (
         comment.answerFor == this.selectedQuestionNumber ||
         this.selectedQuestionNumber == null
-    );
+      );
+    });
   }
 
   voteUp(id: string, parentId?: string) {
-    this._store
-      .dispatch(new PostActions.VoteUp(id, parentId))
-      .subscribe(this.refresh);
+    if (parentId) {
+      this._store
+        .dispatch(new PostActions.VoteUpComment(id, parentId))
+        .subscribe(this.refresh);
+    } else {
+      this._store.dispatch(new PostActions.VoteUp(id)).subscribe(this.refresh);
+    }
   }
 
   voteDown(id: string, parentId?: string) {
-    this._store
-      .dispatch(new PostActions.VoteDown(id, parentId))
-      .subscribe(this.refresh);
+    if (parentId) {
+      this._store
+        .dispatch(new PostActions.VoteDownComment(id, parentId))
+        .subscribe(this.refresh);
+    } else {
+      this._store
+        .dispatch(new PostActions.VoteDown(id))
+        .subscribe(this.refresh);
+    }
   }
 
   refresh() {
