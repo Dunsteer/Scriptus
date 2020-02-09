@@ -4,7 +4,12 @@ import { PostActions } from "./actions";
 import { map, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { User } from "@models/user.model";
-import { patch, updateItem, insertItem } from "@ngxs/store/operators";
+import {
+  patch,
+  updateItem,
+  insertItem,
+  removeItem
+} from "@ngxs/store/operators";
 import { eUserRank } from "../../enumerators/user-rank.enum";
 import { CookieService } from "ngx-cookie-service";
 import { UserService } from "@services/user.service";
@@ -43,6 +48,23 @@ export class PostStateManager {
     return this._post.search(action.tags).pipe(
       map(res => {
         return ctx.patchState({ posts: res.list });
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.Remove)
+  remove(ctx: StateContext<PostState>, action: PostActions.Remove) {
+    return this._post.remove(action.id).pipe(
+      map(res => {
+        return ctx.setState(
+          patch<PostState>({
+            posts: removeItem<Post>(x => x.id == action.id)
+          })
+        );
       }),
       catchError(err => {
         console.error(err);

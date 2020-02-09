@@ -53,7 +53,7 @@
         <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/user', user.id]">{{
-              user.username
+              user.fullName
             }}</a>
           </li>
         </ul>

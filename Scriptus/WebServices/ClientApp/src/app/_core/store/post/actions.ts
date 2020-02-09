@@ -22,6 +22,11 @@ export namespace PostActions {
     constructor(public post: Post) {}
   }
 
+  export class Remove {
+    static readonly type = "[POST] Remove";
+    constructor(public id: string) {}
+  }
+
   export class VoteUp {
     static readonly type = "[POST] Vote up";
     constructor(public id: string, public parentId: string) {}

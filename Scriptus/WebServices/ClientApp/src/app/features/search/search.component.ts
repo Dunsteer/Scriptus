@@ -49,4 +49,8 @@ export class SearchComponent extends BaseComponent implements OnInit {
       );
     });
   }
+
+  remove(id: string) {
+    this._store.dispatch(new PostActions.Remove(id));
+  }
 }

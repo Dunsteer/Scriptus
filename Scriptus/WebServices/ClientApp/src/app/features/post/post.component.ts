@@ -81,4 +81,8 @@ export class PostComponent extends BaseComponent implements OnInit {
   refresh() {
     this.changed = !this.changed;
   }
+
+  remove(id: string) {
+    this._store.dispatch(new PostActions.Remove(id));
+  }
 }
