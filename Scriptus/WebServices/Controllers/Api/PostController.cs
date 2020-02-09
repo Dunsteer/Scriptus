@@ -126,7 +126,7 @@ namespace WebServices.Controllers.Api
                         await formFile.CopyToAsync(stream);
                     }
 
-                    paths.Add(filePath);
+                    paths.Add(filePath.Replace("/wwwroot",""));
                 }
             }
 
