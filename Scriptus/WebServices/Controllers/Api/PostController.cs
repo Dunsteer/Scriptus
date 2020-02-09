@@ -187,19 +187,19 @@ namespace WebServices.Controllers.Api
         {
             if (post != null)
             {
-                if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
+                if (post.VoteUp != null && !post.VoteUp.Contains(UserId))
                 {
-                    post.VoteDown.Add(UserId);
+                    post.VoteUp.Add(UserId);
                 }
                 else
                 {
-                    if (post.VoteDown != null)
+                    if (post.VoteUp != null)
                     {
-                        post.VoteDown.Remove(UserId);
+                        post.VoteUp.Remove(UserId);
                     }
                 }
 
-                if (post.VoteUp != null && post.VoteUp.Contains(UserId))
+                if (post.VoteDown != null && post.VoteDown.Contains(UserId))
                 {
                     post.VoteUp.Remove(UserId);
                 }
