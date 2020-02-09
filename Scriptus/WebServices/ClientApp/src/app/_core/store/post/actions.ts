@@ -24,11 +24,11 @@ export namespace PostActions {
 
   export class VoteUp {
     static readonly type = "[POST] Vote up";
-    constructor(public postId: string) {}
+    constructor(public id: string, public parentId: string) {}
   }
 
   export class VoteDown {
     static readonly type = "[POST] Vote down";
-    constructor(public postId: string) {}
+    constructor(public id: string, public parentId: string) {}
   }
 }

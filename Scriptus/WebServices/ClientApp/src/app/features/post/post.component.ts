@@ -18,10 +18,7 @@ export class PostComponent extends BaseComponent implements OnInit {
   id: string;
   found = true;
   selectedQuestionNumber: number = null;
-
-  reputation(post: Post): number {
-    return post.voteUps.length - post.voteDown.length;
-  }
+  changed = true;
 
   constructor(
     public _store: Store,
@@ -43,14 +40,14 @@ export class PostComponent extends BaseComponent implements OnInit {
         }
       );
     });
-    
+
     this.clearSearch();
   }
 
-  createRange(number){
+  createRange(number) {
     var items: number[] = [];
-    for(var i = 1; i <= number; i++){
-       items.push(i);
+    for (var i = 1; i <= number; i++) {
+      items.push(i);
     }
     return items;
   }
@@ -65,5 +62,18 @@ export class PostComponent extends BaseComponent implements OnInit {
         comment.answerFor == this.selectedQuestionNumber ||
         this.selectedQuestionNumber == null
     );
+  }
+
+  voteUp(id: string, parentId?: string) {
+    this._store.dispatch(new PostActions.VoteUp(id, parentId)).subscribe(this.refresh);
+  }
+
+  voteDown(id: string, parentId?: string) {
+    this._store.dispatch(new PostActions.VoteDown(id, parentId)).subscribe(this.refresh);
+  }
+
+  refresh() {
+    this.changed = false;
+    this.changed = true;
   }
 }

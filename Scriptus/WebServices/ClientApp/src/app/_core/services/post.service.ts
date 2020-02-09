@@ -41,15 +41,15 @@ export class PostService {
     );
   }
 
-  voteUp(id: string): Observable<number> {
-    return this._http.post<number>(
+  voteUp(id: string): Observable<Post> {
+    return this._http.post<Post>(
       `${environment.serverUrl}/api/posts/${id}/vote-up/`,
       null
     );
   }
 
-  voteDown(id: string): Observable<number> {
-    return this._http.post<number>(
+  voteDown(id: string): Observable<Post> {
+    return this._http.post<Post>(
       `${environment.serverUrl}/api/posts/${id}/vote-down/`,
       null
     );

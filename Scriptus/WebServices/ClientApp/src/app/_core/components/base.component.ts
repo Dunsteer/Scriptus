@@ -5,10 +5,15 @@ import { AuthStateManager } from "@store/auth/state";
 import { Observable } from "rxjs";
 import { User } from "@models/user.model";
 import { Select } from "@ngxs/store";
+import { Post } from "@models/post.model";
 
 export class BaseComponent {
   @Select(AuthStateManager.user) user$: Observable<User>;
   constructor() {}
+
+  reputation(post: Post): number {
+    return post.voteUp.length - post.voteDown.length;
+  }
 
   clearSearch() {
     (document.querySelector("#searchInput") as HTMLInputElement).value = "";
