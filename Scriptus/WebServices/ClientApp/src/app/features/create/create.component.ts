@@ -65,53 +65,86 @@ export class CreateComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.createForm = new FormGroup({
       type: new FormControl(-1),
-      name: new FormControl(""),
-      tags: new FormControl(""),
-      text: new FormControl("", Validators.required),
+      name: new FormControl("", Validators.required),
+      tags: new FormControl("", Validators.required),
+      text: new FormControl(""),
       images: new FormControl(null),
       numberOfQuestions: new FormControl(1),
       pdf: new FormControl(null)
     });
-    
+
     this.clearSearch();
   }
 
   typeChanged(type: string) {
     console.log(type);
     const eType = parseInt(type) as ePostType;
+    this.images.setValue(null);
+    this.images.reset();
+    this.pdf.setValue(null);
+    this.pdf.reset();
     switch (eType) {
       case ePostType.exam:
         {
-          this.text.setValidators(Validators.required);
-          this.pdf.clearValidators();
+          this.images.setValidators(Validators.required);
+          this.pdf.setValidators([]);
           this.namePlaceholder = this.examPlaceholderTemplate;
+          this.images.updateValueAndValidity();
           this.pdf.updateValueAndValidity();
-          this.text.updateValueAndValidity();
         }
         break;
       case ePostType.script:
         {
+          this.images.setValidators([]);
           this.pdf.setValidators(Validators.required);
-          this.text.clearValidators();
           this.namePlaceholder = this.scriptPlaceholderTemplate;
+          this.images.updateValueAndValidity();
           this.pdf.updateValueAndValidity();
-          this.text.updateValueAndValidity();
         }
         break;
     }
   }
 
   submit(e, form: NgForm) {
-    e.preventDefault();
-    this._store
-      .dispatch(new PostActions.Create(this.createForm.value))
-      .subscribe(
-        (state: { post: PostState }) => {
-          this._router.navigateByUrl(`/post/${state.post.post.id}`);
-        },
-        err => {
-          console.error(err);
-        }
-      );
+    const post = this.createForm.value;
+    post.tags = (post.tags as string).split(",").map(x => x.trim());
+    post.images;
+    this._store.dispatch(new PostActions.Create(post)).subscribe(
+      (state: { post: PostState }) => {
+        this._router.navigateByUrl(`/post/${state.post.post.id}`);
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
+
+  onFilesSelect(event) {
+    if (event.target.files.length > 0) {
+      console.log(event.target.files);
+      this._store
+        .dispatch(new PostActions.FilesUpload(event.target.files))
+        .subscribe((state: { post: PostState }) => {
+          if (state.post.uploadedImages.length > 0) {
+            this.images.setValue(state.post.uploadedImages);
+          }
+        });
+    }
+  }
+
+  onFileSelect(event) {
+    if (event.target.files.length > 0) {
+      this._store
+        .dispatch(new PostActions.FileUpload(event.target.files[0]))
+        .subscribe((state: { post: PostState }) => {
+          if (state.post.uploadedPdf) {
+            this.pdf.setValue(state.post.uploadedPdf);
+          }
+        });
+    }
+  }
+
+  uploadImages() {}
+
+  uploadPdf() {}
 }

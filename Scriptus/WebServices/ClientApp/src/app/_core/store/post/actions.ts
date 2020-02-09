@@ -46,4 +46,14 @@ export namespace PostActions {
     static readonly type = "[POST] Vote down comment";
     constructor(public id: string, public parentId: string) {}
   }
+
+  export class FilesUpload {
+    static readonly type = "[POST] Files upload";
+    constructor(public files: FileList) {}
+  }
+
+  export class FileUpload {
+    static readonly type = "[POST] File upload";
+    constructor(public file: File) {}
+  }
 }

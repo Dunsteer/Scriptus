@@ -3,20 +3,18 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Colab learn</a>
-      <form class="form-inline" (submit)="search(input.value)">
-        <input
-          id="searchInput"
-          #input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Pretraga"
-          aria-label="Pretraga"
-        />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Traži
-        </button>
-      </form>
+      <a
+        class="navbar-brand d-block d-lg-none"
+        style="width: 200px;"
+        [routerLink]="['/']"
+        >CL</a
+      >
+      <a
+        class="navbar-brand d-none d-lg-block"
+        style="width: 200px;"
+        [routerLink]="['/']"
+        >Colab learn</a
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -29,11 +27,35 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row"
         [ngClass]="{ show: isExpanded }"
       >
-        <ul class="navbar-nav flex-grow" *ngIf="!(user$ | async)">
-          <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
+        <div class="d-flex w-100 mt-0 mt-sm-2">
+          <form class="form-inline w-100" (submit)="search(input.value)">
+            <div class="d-flex w-100">
+              <input
+                id="searchInput"
+                #input
+                class="form-control mr-sm-2"
+                type="search"
+                placeholder="Pretraga"
+                aria-label="Pretraga"
+                style="width: 70%;"
+              />
+              <button
+                class="btn btn-outline-success my-sm-0"
+                type="submit"
+                style="width: 30%;"
+              >
+                <i class="fa fa-search"></i>
+                Traži
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="d-flex w-100 mt-0 mt-sm-2">
+          <ul class="navbar-nav flex-grow" *ngIf="!(user$ | async)">
+            <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Prijava</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
@@ -41,22 +63,33 @@
               >Registracija</a
             >
           </li> -->
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/api/users/microsoft-auth">
-              <img
-                src="https://sip.elfak.ni.ac.rs/assets/template/landing/img/logo.png"
-                width="60"
-            /></a>
-          </li>
-        </ul>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="/api/users/microsoft-auth">
+                <img
+                  src="https://sip.elfak.ni.ac.rs/assets/template/landing/img/logo.png"
+                  width="60"
+              /></a>
+            </li>
+          </ul>
 
-        <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/user', user.id]">{{
-              user.fullName
-            }}</a>
-          </li>
-        </ul>
+          <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
+            <button
+              class="btn btn-outline-primary my-2 my-sm-0 mr-0 mr-sm-2"
+              type="button"
+              [routerLink]="['/create']"
+            >
+              <i class="fa fa-plus-square"></i>
+              Kreiraj
+            </button>
+            <li class="nav-item" [routerLinkActive]="['user']">
+              <a
+                class="nav-link text-dark text-center"
+                [routerLink]="['/user', user.id]"
+                >{{ user.fullName }}</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>

@@ -19,11 +19,15 @@ import { Post } from "@models/post.model";
 export interface PostState {
   post: Post;
   posts: Post[];
+  uploadedImages: string[];
+  uploadedPdf: string;
 }
 
 const initialState: PostState = {
   post: null,
-  posts: []
+  posts: [],
+  uploadedImages: [],
+  uploadedPdf: null
 };
 
 @State<PostState>({ name: "post", defaults: initialState })
@@ -75,19 +79,15 @@ export class PostStateManager {
 
   @Action(PostActions.Create)
   create(ctx: StateContext<PostState>, action: PostActions.Create) {
-    // return this._post.fetch(action.id).pipe(
-    //   map(res => {
-    //     ctx.patchState({ post: res });
-    //   }),
-    //   catchError(err => {
-    //     console.error(err);
-    //     throw of(err);
-    //   })
-    // );
-
-    console.log("calledd");
-
-    return of(ctx.patchState({ post: { id: "12345" } }));
+    return this._post.create(action.post).pipe(
+      map(res => {
+        ctx.patchState({ post: res });
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
   }
 
   @Action(PostActions.VoteUp)
@@ -154,6 +154,41 @@ export class PostStateManager {
             post: patch<Post>({
               comments: updateItem<Post>(x => x.id == action.id, res)
             })
+          })
+        );
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.FilesUpload)
+  filesUpload(ctx: StateContext<PostState>, action: PostActions.FilesUpload) {
+    return this._post.uploadFiles(action.files).pipe(
+      map(res => {
+        return ctx.setState(
+          patch<PostState>({
+            uploadedImages: res.paths
+          })
+        );
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
+  @Action(PostActions.FileUpload)
+  fileUpload(ctx: StateContext<PostState>, action: PostActions.FileUpload) {
+    return this._post.uploadFile(action.file).pipe(
+      map(res => {
+        console.log(res);
+        return ctx.setState(
+          patch<PostState>({
+            uploadedPdf: res.paths[0]
           })
         );
       }),

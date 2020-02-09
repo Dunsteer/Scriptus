@@ -68,4 +68,26 @@ export class PostService {
       null
     );
   }
+
+  uploadFiles(files: FileList): Observable<{ count: number; paths: string[] }> {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+
+    return this._http.post<{ count: number; paths: string[] }>(
+      `${environment.serverUrl}/api/posts/file-upload`,
+      formData
+    );
+  }
+
+  uploadFile(file: File): Observable<{ count: number; paths: string[] }> {
+    const formData = new FormData();
+    formData.append("files", file);
+
+    return this._http.post<{ count: number; paths: string[] }>(
+      `${environment.serverUrl}/api/posts/file-upload`,
+      formData
+    );
+  }
 }

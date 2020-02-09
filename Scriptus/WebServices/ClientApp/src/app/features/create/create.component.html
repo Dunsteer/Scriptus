@@ -8,31 +8,83 @@
   <span class="h5">Kreiranje objave</span>
   <label class="d-flex justify-content-start align-items-center mt-3">
     <span class="mr-3" style="width: 100px;">Tip:</span>
-    <select formControlName="type" class="form-control" (change)="typeChanged($event.target.value)">
+    <select
+      formControlName="type"
+      class="form-control"
+      (change)="typeChanged($event.target.value)"
+    >
       <option [value]="-1">Odaberi</option>
-      <option *ngFor="let type of allowedTypes" [value]="type">{{type }}</option>
+      <option *ngFor="let type of allowedTypes" [value]="type">{{
+        type
+      }}</option>
     </select>
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
     <span class="mr-3" style="width: 100px;">Naslov:</span>
-    <input type="text" formControlName="name" [placeholder]="namePlaceholder" class="form-control" />
+    <input
+      type="text"
+      formControlName="name"
+      [placeholder]="namePlaceholder"
+      class="form-control"
+    />
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
     <span class="mr-3" style="width: 100px;">Tagovi:</span>
-    <input type="text" formControlName="tags" placeholder="tag 1, tag 2, tag123" class="form-control" />
+    <input
+      type="text"
+      formControlName="tags"
+      placeholder="tag 1, tag 2, tag123"
+      class="form-control"
+    />
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
     <span class="mr-3" style="width: 100px;">Tekst:</span>
-    <textarea type="text" formControlName="text" placeholder="" class="form-control" ></textarea>
+    <textarea
+      type="text"
+      formControlName="text"
+      placeholder=""
+      class="form-control"
+    ></textarea>
   </label>
+
+  <ng-container *ngIf="type.value == 1">
+    <label class="d-flex justify-content-start align-items-center mt-3">
+      <span class="mr-3" style="width: 100px;">Slike:</span>
+      <input
+        accept="image/x-png,image/gif,image/jpeg"
+        type="file"
+        multiple
+        name="images"
+        (change)="onFilesSelect($event)"
+      />
+    </label>
+  </ng-container>
+
+  <ng-container *ngIf="type.value == 2">
+    <label class="d-flex justify-content-start align-items-center mt-3">
+      <span class="mr-3" style="width: 100px;">PDF:</span>
+      <input
+        accept="application/pdf"
+        type="file"
+        name="pdf"
+        (change)="onFileSelect($event)"
+      />
+    </label>
+  </ng-container>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
     <span class="mr-3" style="width: 100px;">Broj pitanja:</span>
-    <input type="number" formControlName="numberOfQuestions" class="form-control" />
+    <input
+      type="number"
+      formControlName="numberOfQuestions"
+      class="form-control"
+    />
   </label>
 
   <button class="btn btn-primary" type="submit">Kreiraj</button>
 </form>
+{{ createForm.value | json }}
+{{ createForm.valid | json }}

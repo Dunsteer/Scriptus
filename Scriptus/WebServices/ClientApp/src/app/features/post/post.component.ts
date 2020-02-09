@@ -98,4 +98,11 @@ export class PostComponent extends BaseComponent implements OnInit {
   remove(id: string) {
     this._store.dispatch(new PostActions.Remove(id));
   }
+
+  openUrl(e: MouseEvent, url: string) {
+    if(e.button == 0){
+      e.preventDefault();
+      window.open(url, "_blank");
+    }
+  }
 }
