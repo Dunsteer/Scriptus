@@ -228,5 +228,12 @@ namespace WebServices.Controllers.Api
                 }
             }
         }
+
+        public override Task<IActionResult> Create([FromBody] Post model, [FromQuery] bool min = false)
+        {
+            model.UserId = UserId;
+
+            return base.Create(model, min);
+        }
     }
 }
