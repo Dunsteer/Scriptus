@@ -221,19 +221,31 @@ namespace WebServices.Controllers.Api
         {
             model.UserId = UserId;
 
+            if (model.Type == 1)
+            {
+                model.Tags.Insert(0, "ispit");
+            }
+
+            if (model.Type == 2)
+            {
+                model.Tags.Insert(0, "kolokvijum");
+            }
+
             return base.Create(model, min);
         }
 
         [HttpPost("{id}/comment")]
-        public async Task<IActionResult> CreateComment(Guid id,[FromBody] Post model)
+        public async Task<IActionResult> CreateComment(Guid id, [FromBody] Post model)
         {
             var post = await _postService.Get(id);
+
+            model.UserId = UserId;
 
             if (post != null)
             {
                 post.Comments.Add(model);
 
-                await _postService.Update(id,post);
+                await _postService.Update(id, post);
             }
 
             return Map(post, false);
