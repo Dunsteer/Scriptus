@@ -201,7 +201,7 @@ namespace WebServices.Controllers.Api
 
                 if (post.VoteDown != null && post.VoteDown.Contains(UserId))
                 {
-                    post.VoteUp.Remove(UserId);
+                    post.VoteDown.Remove(UserId);
                 }
             }
         }
