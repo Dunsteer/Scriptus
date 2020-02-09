@@ -26,8 +26,8 @@ export class CreateComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  examPlaceholderTemplate = "Ispit - septembar 2017.";
-  scriptPlaceholderTemplate = "Skripta - 02.10.2019.";
+  examPlaceholderTemplate = "npr. tIspit - septembar 2017.";
+  scriptPlaceholderTemplate = "npr. tSkripta - 02.10.2019.";
   namePlaceholder = this.examPlaceholderTemplate;
 
   get type() {

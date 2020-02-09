@@ -27,8 +27,10 @@
           <h5>
             <span
               [routerLink]="['/search', tag]"
-              class="badge badge-primary mr-2 pointer"
-              *ngFor="let tag of post.tags"
+              class="badge mr-2 pointer"
+              *ngFor="let tag of post.tags; let f = first"
+              [class.badge-secondary]="f"
+              [class.badge-primary]="!f"
               >{{ tag }}</span
             >
           </h5>

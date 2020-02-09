@@ -15,7 +15,7 @@
     >
       <option [value]="-1">Odaberi</option>
       <option *ngFor="let type of allowedTypes" [value]="type">{{
-        type
+        type==1?'Ispit':'Skripta'
       }}</option>
     </select>
   </label>
@@ -35,7 +35,7 @@
     <input
       type="text"
       formControlName="tags"
-      placeholder="tag 1, tag 2, tag123"
+      placeholder="npr. tag 1, tag 2, tag123"
       class="form-control"
     />
   </label>
@@ -86,5 +86,3 @@
 
   <button class="btn btn-primary" type="submit">Kreiraj</button>
 </form>
-{{ createForm.value | json }}
-{{ createForm.valid | json }}
