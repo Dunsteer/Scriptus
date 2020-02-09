@@ -99,7 +99,8 @@
         </div>
       </div>
       <div *ngIf="post.pdf" class="my-4">
-        Preuzmi .pdf <a (click)="openUrl($event, post.pdf)" [href]="post.pdf"> ovde</a>.
+        Preuzmi .pdf
+        <a (click)="openUrl($event, post.pdf)" [href]="post.pdf"> ovde</a>.
       </div>
       <div
         class="d-flex justify-content-between align-items-center btn-group my-4"
@@ -118,6 +119,50 @@
           <span>{{ item }}</span>
         </button>
       </div>
+
+      <form
+        [formGroup]="commentForm"
+        #form="ngForm"
+        (submit)="commentForm.valid && submit($event, form)"
+        class="my-5 d-flex flex-column justify-content-between"
+      >
+        <span class="h5">Komentari</span>
+
+        <label class="d-flex justify-content-start align-items-center mt-3">
+          <span class="mr-3" style="width: 100px;">Tekst:</span>
+          <textarea
+            type="text"
+            formControlName="text"
+            placeholder=""
+            class="form-control"
+          ></textarea>
+        </label>
+
+        <label class="d-flex justify-content-start align-items-center mt-3">
+          <span class="mr-3" style="width: 100px;">Slike:</span>
+          <input
+            accept="image/x-png,image/gif,image/jpeg"
+            type="file"
+            multiple
+            name="images"
+            (change)="onFilesSelect($event)"
+          />
+        </label>
+
+        <label class="d-flex justify-content-start align-items-center mt-3">
+          <span class="mr-3" style="width: 100px;">Za pitanje:</span>
+          <input
+            value="0"
+            type="number"
+            min="0"
+            [max]="post.numberOfQuestions"
+            formControlName="answerFor"
+            class="form-control"
+          />
+        </label>
+
+        <button class="btn btn-primary" type="submit">Kometariši</button>
+      </form>
 
       <div
         *ngIf="

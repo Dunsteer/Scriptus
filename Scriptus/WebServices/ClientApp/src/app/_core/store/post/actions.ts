@@ -14,7 +14,7 @@ export namespace PostActions {
 
   export class AddComment {
     static readonly type = "[POST] Add comment";
-    constructor(public id: string, public data: string) {}
+    constructor(public id: string, public data: Post) {}
   }
 
   export class Create {

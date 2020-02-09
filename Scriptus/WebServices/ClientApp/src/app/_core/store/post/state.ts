@@ -199,6 +199,24 @@ export class PostStateManager {
     );
   }
 
+  @Action(PostActions.AddComment)
+  addComment(ctx: StateContext<PostState>, action: PostActions.AddComment) {
+    return this._post.addComment(action.id, action.data).pipe(
+      map(res => {
+        console.log(res);
+        return ctx.setState(
+          patch<PostState>({
+            post: res
+          })
+        );
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
   @Selector()
   static state(state: PostState) {
     return state;

@@ -34,8 +34,8 @@ export class PostService {
     return this._http.delete<any>(`${environment.serverUrl}/api/posts/${id}`);
   }
 
-  addComment(id: string, data: Post): Observable<Comment> {
-    return this._http.post<Comment>(
+  addComment(id: string, data: Post): Observable<Post> {
+    return this._http.post<Post>(
       `${environment.serverUrl}/api/posts/${id}/comment/`,
       this._parser.objectToUrlParams(data)
     );

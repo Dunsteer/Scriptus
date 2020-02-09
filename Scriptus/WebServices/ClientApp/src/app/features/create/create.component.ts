@@ -108,7 +108,6 @@ export class CreateComponent extends BaseComponent implements OnInit {
   submit(e, form: NgForm) {
     const post = this.createForm.value;
     post.tags = (post.tags as string).split(",").map(x => x.trim());
-    post.images;
     this._store.dispatch(new PostActions.Create(post)).subscribe(
       (state: { post: PostState }) => {
         this._router.navigateByUrl(`/post/${state.post.post.id}`);
@@ -143,8 +142,4 @@ export class CreateComponent extends BaseComponent implements OnInit {
         });
     }
   }
-
-  uploadImages() {}
-
-  uploadPdf() {}
 }
