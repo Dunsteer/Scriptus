@@ -20,29 +20,31 @@ namespace BaseLogic.Services
         public override async ValueTask<Post> Get(object id)
         {
             var post = await base.Get(id);
-
-            var dic = new Dictionary<Guid, User>();
-
-            if (dic.ContainsKey(post.UserId))
+            if (post != null)
             {
-                post.User = dic[post.UserId];
-            }
-            else
-            {
-                dic[post.UserId] = await _userService.Get(post.UserId);
-                post.User = dic[post.UserId];
-            }
+                var dic = new Dictionary<Guid, User>();
 
-            foreach (var comment in post.Comments)
-            {
-                if (dic.ContainsKey(comment.UserId))
+                if (dic.ContainsKey(post.UserId))
                 {
-                    comment.User = dic[comment.UserId];
+                    post.User = dic[post.UserId];
                 }
                 else
                 {
-                    dic[comment.UserId] = await _userService.Get(comment.UserId);
-                    comment.User = dic[comment.UserId];
+                    dic[post.UserId] = await _userService.Get(post.UserId);
+                    post.User = dic[post.UserId];
+                }
+
+                foreach (var comment in post.Comments)
+                {
+                    if (dic.ContainsKey(comment.UserId))
+                    {
+                        comment.User = dic[comment.UserId];
+                    }
+                    else
+                    {
+                        dic[comment.UserId] = await _userService.Get(comment.UserId);
+                        comment.User = dic[comment.UserId];
+                    }
                 }
             }
 
