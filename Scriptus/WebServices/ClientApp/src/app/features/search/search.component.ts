@@ -40,6 +40,7 @@ export class SearchComponent extends BaseComponent implements OnInit {
       }
       this._store.dispatch(new PostActions.Search(tags)).subscribe(
         (state: { post: PostState }) => {
+          console.log(state.post.posts);
           this.posts = state.post.posts;
         },
         err => {

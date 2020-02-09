@@ -77,7 +77,6 @@ export class CreateComponent extends BaseComponent implements OnInit {
   }
 
   typeChanged(type: string) {
-    console.log(type);
     const eType = parseInt(type) as ePostType;
     this.images.setValue(null);
     this.images.reset();
@@ -120,7 +119,6 @@ export class CreateComponent extends BaseComponent implements OnInit {
 
   onFilesSelect(event) {
     if (event.target.files.length > 0) {
-      console.log(event.target.files);
       this._store
         .dispatch(new PostActions.FilesUpload(event.target.files))
         .subscribe((state: { post: PostState }) => {
