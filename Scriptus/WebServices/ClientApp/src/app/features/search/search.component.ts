@@ -43,7 +43,7 @@ export class SearchComponent extends BaseComponent implements OnInit {
 
       (document.querySelector(
         "#searchInput"
-      ) as HTMLInputElement).value = this.terms;
+      ) as HTMLInputElement).value = this.terms.replace('+', ' ');
     });
   }
 }
