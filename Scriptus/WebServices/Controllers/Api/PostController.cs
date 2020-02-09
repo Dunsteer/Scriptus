@@ -3,11 +3,13 @@ using BaseLogic.Services;
 using Commons.Models.Post;
 using DbServices.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebServices.Helpers;
@@ -61,22 +63,7 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                if (post.VoteUp != null && !post.VoteUp.Contains(UserId))
-                {
-                    post.VoteUp.Add(UserId);
-                }
-                else
-                {
-                    if (post.VoteUp != null)
-                    {
-                        post.VoteUp.Remove(UserId);
-                    }    
-                }
-
-                if (post.VoteDown != null && post.VoteDown.Contains(UserId))
-                {
-                    post.VoteDown.Remove(UserId);
-                }
+                PostVoteUp(post, UserId);
 
                 await _postService.Update(id,post);
             }
@@ -94,22 +81,7 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
-                {
-                    post.VoteDown.Add(UserId);
-                }
-                else
-                {
-                    if (post.VoteDown != null)
-                    {
-                        post.VoteDown.Remove(UserId);
-                    }
-                }
-
-                if (post.VoteUp != null && post.VoteUp.Contains(UserId))
-                {
-                    post.VoteUp.Remove(UserId);
-                }
+                PostVoteDown(post, UserId);
 
                 await _postService.Update(id, post);
             }
@@ -134,6 +106,127 @@ namespace WebServices.Controllers.Api
             }
 
             return BadRequest();
+        }
+
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            List<string> paths = new List<string>();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.Combine(_appSettings.Value.UploadPath, Path.GetRandomFileName());
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+
+                    paths.Add(filePath);
+                }
+            }
+
+            // Process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, paths });
+        }
+
+        [HttpPost("{id}/vote-up/{commentId}")]
+        public async Task<IActionResult> CommentVoteUp(Guid id,Guid commentId)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                var comment = post.Comments.FirstOrDefault(x => x.Id == commentId);
+                if (comment != null)
+                {
+                    PostVoteUp(post, UserId);
+
+                    await _postService.Update(id, post);
+
+                    post = comment;
+                }
+            }
+
+            var type = _REST.GET.MapTo;
+            if (type == null) return Ok(post);
+
+            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+        }
+
+        [HttpPost("{id}/vote-down/{commentId}")]
+        public async Task<IActionResult> CommentVoteDown(Guid id, Guid commentId)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                var comment = post.Comments.FirstOrDefault(x => x.Id == commentId);
+                if (comment != null)
+                {
+                    PostVoteDown(comment, UserId);
+
+                    await _postService.Update(id, post);
+
+                    post = comment;
+                }  
+            }
+
+            var type = _REST.GET.MapTo;
+            if (type == null) return Ok(post);
+
+            return Ok(_mapper.Get().Map(post, typeof(Post), type));
+        }
+
+        private void PostVoteUp(Post post, Guid UserId)
+        {
+            if (post != null)
+            {
+                if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
+                {
+                    post.VoteDown.Add(UserId);
+                }
+                else
+                {
+                    if (post.VoteDown != null)
+                    {
+                        post.VoteDown.Remove(UserId);
+                    }
+                }
+
+                if (post.VoteUp != null && post.VoteUp.Contains(UserId))
+                {
+                    post.VoteUp.Remove(UserId);
+                }
+            }
+        }
+
+        private void PostVoteDown(Post post, Guid UserId)
+        {
+            if (post != null)
+            {
+                if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
+                {
+                    post.VoteDown.Add(UserId);
+                }
+                else
+                {
+                    if (post.VoteDown != null)
+                    {
+                        post.VoteDown.Remove(UserId);
+                    }
+                }
+
+                if (post.VoteUp != null && post.VoteUp.Contains(UserId))
+                {
+                    post.VoteUp.Remove(UserId);
+                }
+            }
         }
     }
 }
