@@ -25,7 +25,7 @@
               <ng-container *ngIf="user$ | async as user; else noUser">
                 <i
                   class="fa fa-chevron-down h5 m-0 pointer"
-                  [class.text-success]="post.voteDown.includes(user.id)"
+                  [class.text-danger]="post.voteDown.includes(user.id)"
                   (click)="voteDown(post.id)"
                 ></i>
               </ng-container>
@@ -133,7 +133,7 @@
                 <ng-container *ngIf="user$ | async as user; else noUser">
                   <i
                     class="fa fa-chevron-down h5 m-0 pointer"
-                    [class.text-success]="comment.voteDown.includes(user.id)"
+                    [class.text-danger]="comment.voteDown.includes(user.id)"
                     (click)="voteDown(comment.id, post.id)"
                   ></i>
                 </ng-container>
