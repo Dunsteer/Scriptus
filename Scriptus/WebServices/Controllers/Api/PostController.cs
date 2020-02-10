@@ -234,12 +234,12 @@ namespace WebServices.Controllers.Api
 
             if (model.Type == 1)
             {
-                model.Tags.Insert(0, "ispit");
+                model.Tags.Insert(0, "Blanket");
             }
 
             if (model.Type == 2)
             {
-                model.Tags.Insert(0, "kolokvijum");
+                model.Tags.Insert(0, "Skripta");
             }
 
             return base.Create(model, min);
