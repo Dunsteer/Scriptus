@@ -71,7 +71,7 @@
             <div class="d-flex">
               <h5>
                 <span
-                  [routerLink]="[tag]"
+                  [routerLink]="['/', tag]"
                   class="badge rounded-0 mr-2 pointer"
                   *ngFor="let tag of post.tags; let f = first"
                   [class.badge-secondary]="f"
@@ -248,7 +248,7 @@
             <div class="d-flex">
               <h5>
                 <span
-                  [routerLink]="[tag]"
+                  [routerLink]="['/', tag]"
                   class="badge rounded-0 mr-2 pointer"
                   *ngFor="let tag of comment.tags; let f = first"
                   [class.badge-secondary]="f"

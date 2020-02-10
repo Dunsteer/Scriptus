@@ -6,32 +6,12 @@
       <div class="d-flex justify-content-between">
         <div class="d-flex justify-content-start">
           <div
-            class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
+            class="d-flex h-100 flex-column justify-content-center align-items-center mr-2"
             style="flex-basis: 50px;"
           >
-            <ng-container *ngIf="user$ | async as user; else noUser1">
-              <i
-                class="fas fa-chevron-up h5 m-0 pointer"
-                [class.text-success]="post.voteUp.includes(user.id)"
-                (click)="voteUp(post.id)"
-              ></i>
-            </ng-container>
-            <ng-template #noUser1>
-              <i class="fas fa-chevron-up h5 m-0 pointer"></i>
-            </ng-template>
             <div class="h5 m-0">
               {{ (changed || !changed) && reputation(post) }}
             </div>
-            <ng-container *ngIf="user$ | async as user; else noUser2">
-              <i
-                class="fas fa-chevron-down h5 m-0 pointer"
-                [class.text-danger]="post.voteDown.includes(user.id)"
-                (click)="voteDown(post.id)"
-              ></i>
-            </ng-container>
-            <ng-template #noUser2>
-              <i class="fas fa-chevron-down h5 m-0 pointer"></i>
-            </ng-template>
           </div>
           <div class="d-flex h-100" style="flex-basis: 70px;">
             <img
@@ -66,7 +46,7 @@
         <div class="d-flex">
           <h5>
             <span
-              [routerLink]="[tag]"
+              [routerLink]="['/', tag]"
               class="badge rounded-0 mr-2 pointer"
               *ngFor="let tag of post.tags; let f = first"
               [class.badge-secondary]="f"
