@@ -257,6 +257,8 @@ namespace WebServices.Controllers.Api
                 post.Comments.Add(model);
 
                 await _postService.Update(id, post);
+
+                model.User = await _userService.Get(model.UserId);
             }
 
             return Map(post, false);
