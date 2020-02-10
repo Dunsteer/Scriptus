@@ -23,6 +23,7 @@ import { PostComponent } from "./features/post/post.component";
 import { CreateComponent } from "./features/create/create.component";
 import { SearchComponent } from "./features/search/search.component";
 import { ReputationPipe } from "./_core/pipes/reputation.pipe";
+import { SafePipe } from "./_core/pipes/safe.pipe";
 
 const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
 
