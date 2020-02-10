@@ -19,6 +19,7 @@ export class SearchComponent extends BaseComponent implements OnInit {
   terms: string;
   found = true;
   posts: Post[] = [];
+  changed = false;
 
   constructor(
     public _store: Store,
@@ -51,6 +52,39 @@ export class SearchComponent extends BaseComponent implements OnInit {
   }
 
   remove(id: string) {
-    this._store.dispatch(new PostActions.Remove(id));
+    this._store.dispatch(new PostActions.Remove(id)).subscribe(
+      (state: { post: PostState }) => {
+        this.posts = state.post.posts;
+      },
+      err => {
+        this.posts = [];
+      }
+    );
+  }
+
+  voteUp(id: string, parentId?: string) {
+    if (parentId) {
+      this._store
+        .dispatch(new PostActions.VoteUpComment(id, parentId))
+        .subscribe(this.refresh);
+    } else {
+      this._store.dispatch(new PostActions.VoteUp(id)).subscribe(this.refresh);
+    }
+  }
+
+  voteDown(id: string, parentId?: string) {
+    if (parentId) {
+      this._store
+        .dispatch(new PostActions.VoteDownComment(id, parentId))
+        .subscribe(this.refresh);
+    } else {
+      this._store
+        .dispatch(new PostActions.VoteDown(id))
+        .subscribe(this.refresh);
+    }
+  }
+
+  refresh() {
+    this.changed = !this.changed;
   }
 }
