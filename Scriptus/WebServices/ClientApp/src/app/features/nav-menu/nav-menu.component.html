@@ -4,13 +4,13 @@
   >
     <div class="container">
       <a
-        class="navbar-brand d-block d-lg-none h5"
+        class="navbar-brand d-block d-lg-none h5 m-0"
         style="width: 200px;"
         [routerLink]="['/']"
         >CL</a
       >
       <a
-        class="navbar-brand d-none d-lg-block h5"
+        class="navbar-brand d-none d-lg-block h5 m-0"
         style="width: 200px;"
         [routerLink]="['/']"
         >Colab learn</a
@@ -30,7 +30,7 @@
         class="navbar-collapse collapse d-sm-inline-flex flex-sm-row"
         [ngClass]="{ show: isExpanded }"
       >
-        <div class="d-flex w-100 mt-0 mt-sm-2">
+        <div class="d-flex w-100">
           <form
             class="form-inline"
             (submit)="search(input.value)"
@@ -65,7 +65,7 @@
             <i class="fa fa-plus-square"></i>
           </button>
         </div>
-        <div class="d-flex justify-content-end w-100 mt-0 mt-sm-2">
+        <div class="d-flex justify-content-end w-100">
           <ul class="navbar-nav flex-grow" *ngIf="!(user$ | async)">
             <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Prijava</a>
@@ -76,26 +76,33 @@
             >
           </li> -->
             <li class="nav-item">
-              <a class="nav-link text-dark" href="/api/users/microsoft-auth">
-                <img src="https://luna1.co/a17588.png" width="40" class="mr-2" />Prijavi
-                se</a
+              <a
+                class="btn btn-outline-white rounded-0 nav-link text-dark"
+                href="/api/users/microsoft-auth"
+              >
+                <img
+                  src="https://luna1.co/a17588.png"
+                  width="20"
+                  class="mr-2"
+                />Prijava</a
               >
             </li>
           </ul>
 
           <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
             <li class="nav-item" [routerLinkActive]="['user']">
-              <a
-                class="nav-link text-dark text-center mt-1 h6"
-                >{{ user.fullName }}</a
-              >
-            </li>
-            <li class="nav-item">
-              <button class="btn btn-outline-secondary rounded-0 ">
-                <i (click)="logout()" class="nav-link fas fa-sign-out-alt"></i>
-              </button>
+              <a class="nav-link text-dark text-center m-0 h6">{{
+                user.fullName
+              }}</a>
             </li>
           </ul>
+          <button
+            *ngIf="user$ | async"
+            (click)="logout()"
+            class="btn rounded-0 btn-outline-danger my-sm-0"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
         </div>
       </div>
     </div>

@@ -153,7 +153,10 @@
       </form>
       <div class="d-flex">
         Komentari vezani za
-        <select class="mx-2" (change)="selectedQuestionNumber = $event.target.value;"> 
+        <select
+          class="mx-2"
+          (change)="selectedQuestionNumber = $event.target.value"
+        >
           <option [value]="-1">Svako</option>
           <option
             *ngFor="let item of createRange(post.numberOfQuestions)"
@@ -164,26 +167,6 @@
         pitanje.
       </div>
 
-      <!-- <div *ngIf="post.comments.length > 0" class="h5 m-0 mr-3 mt-3">
-        Prikaži komentare vezane za:
-      </div>
-      <div
-        class="d-flex justify-content-between align-items-center btn-group my-2"
-        *ngIf="post.comments.length > 0"
-      >
-        <button
-          [class.btn-primary]="item == selectedQuestionNumber"
-          [class.btn-outline-primary]="item != selectedQuestionNumber"
-          (click)="
-            selectedQuestionNumber =
-              item == selectedQuestionNumber ? null : item
-          "
-          class="flex-grow-1 btn rounded-0  rounded-0"
-          *ngFor="let item of createRange(post.numberOfQuestions)"
-        >
-          <span>{{ item }}</span>
-        </button>
-      </div> -->
       <div class="h5 mt-3">Komentari:</div>
       <div
         *ngIf="
@@ -256,9 +239,7 @@
               >
             </div>
           </div>
-          <div
-            class="d-flex justify-content-end mt-3"
-          >
+          <div class="d-flex justify-content-end mt-3">
             <ng-container *ngIf="user$ | async as user">
               <div
                 *ngIf="user.id == comment.user.id || hasPermission(user)"
@@ -289,7 +270,7 @@
         </ng-container>
       </div>
       <ng-template #noComments>
-        Nema komentara.
+        <span class="mb-4">Nema komentara.</span>
       </ng-template>
     </ng-container>
     <ng-template #noPost>
@@ -297,6 +278,6 @@
     </ng-template>
   </ng-container>
   <ng-template #notFound>
-    Tražena objava nije pronađena!
+    <span class="mb-4"> Tražena objava nije pronađena!</span>
   </ng-template>
 </div>

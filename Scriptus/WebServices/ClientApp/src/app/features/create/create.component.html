@@ -3,7 +3,7 @@
   [formGroup]="createForm"
   #form="ngForm"
   (submit)="createForm.valid && submit($event, form)"
-  class="mt-5 mx-5 px-5 d-flex flex-column justify-content-between"
+  class="my-5 mx-5 px-5 d-flex flex-column justify-content-between"
 >
   <span class="h5">Kreiranje objave</span>
   <label class="d-flex justify-content-start align-items-center mt-3">
@@ -15,7 +15,7 @@
     >
       <option [value]="-1">Odaberi</option>
       <option *ngFor="let type of allowedTypes" [value]="type">{{
-        type==1?'Blanket':'Skripta'
+        type == 1 ? "Blanket" : "Skripta"
       }}</option>
     </select>
   </label>
@@ -61,6 +61,15 @@
         (change)="onFilesSelect($event)"
       />
     </label>
+
+    <label class="d-flex justify-content-start align-items-center mt-3">
+      <span class="mr-3" style="width: 100px;">Broj pitanja:</span>
+      <input
+        type="number"
+        formControlName="numberOfQuestions"
+        class="form-control rounded-0"
+      />
+    </label>
   </ng-container>
 
   <ng-container *ngIf="type.value == 2">
@@ -74,15 +83,5 @@
       />
     </label>
   </ng-container>
-
-  <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Broj pitanja:</span>
-    <input
-      type="number"
-      formControlName="numberOfQuestions"
-      class="form-control rounded-0"
-    />
-  </label>
-
   <button class=" btn rounded-0 btn-primary" type="submit">Kreiraj</button>
 </form>
