@@ -22,6 +22,7 @@ import { UserComponent } from "./features/user/user.component";
 import { PostComponent } from "./features/post/post.component";
 import { CreateComponent } from "./features/create/create.component";
 import { SearchComponent } from "./features/search/search.component";
+import { ReputationPipe } from "./_core/pipes/reputation.pipe";
 
 const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
 
@@ -35,7 +36,8 @@ const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
     UserComponent,
     PostComponent,
     CreateComponent,
-    SearchComponent
+    SearchComponent,
+    ReputationPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -58,4 +60,4 @@ const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
