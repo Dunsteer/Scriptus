@@ -41,7 +41,9 @@ export class AuthStateManager {
     return this._auth.login(action.user).pipe(
       map(res => {
         if (res) {
-          this._cookie.set("token", res.token);
+          const expire = new Date();
+          expire.setFullYear(new Date().getFullYear() + 1);
+          this._cookie.set("token", res.token, expire, '/');
           return ctx.setState({
             ...state,
             user: res.user
@@ -76,8 +78,7 @@ export class AuthStateManager {
 
   @Action(AuthActions.Logout)
   logout(ctx: StateContext<AuthState>, action: AuthActions.Logout) {
-    this._cookie.deleteAll();
-    this._cookie.set('token', "1", Date.now())
+    this._cookie.deleteAll('/');
     return ctx.setState({ user: null });
   }
 
