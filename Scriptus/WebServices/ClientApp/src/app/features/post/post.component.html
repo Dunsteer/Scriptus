@@ -85,7 +85,7 @@
             </div>
           </div>
         </div>
-        <div class="w-100 my-4 px-3">
+        <div class="w-100 my-4 px-3" *ngIf="post.text.trim()">
           {{ post.text }}
         </div>
         <div class="d-flex flex-column px-3" *ngIf="post.images.length > 0">
@@ -107,15 +107,16 @@
         </div>
       </div>
       <form
+        *ngIf="user$ | async"
         [formGroup]="commentForm"
         #form="ngForm"
         (submit)="commentForm.valid && submit($event, form)"
-        class="my-5 d-flex flex-column justify-content-between p-3 border"
+        class="mt-5 d-flex flex-column justify-content-between p-3 border"
       >
         <span class="h5">Dodaj komentar:</span>
 
         <label class="d-flex justify-content-start align-items-center mt-3">
-          <span class="mr-3" style="width: 100px;">Tekst:</span>
+          <span class="mr-3" style="width: 100px;">Tekst*:</span>
           <textarea
             type="text"
             formControlName="text"
@@ -123,6 +124,7 @@
             class="form-control rounded-0"
           ></textarea>
         </label>
+
 
         <label class="d-flex justify-content-start align-items-center mt-3">
           <span class="mr-3" style="width: 100px;">Slike:</span>
@@ -135,29 +137,39 @@
           />
         </label>
 
-        <label class="d-flex justify-content-start align-items-center mt-3">
-          <span class="mr-3" style="width: 100px;">Za pitanje:</span>
-          <input
-            value="0"
-            type="number"
-            min="0"
-            [max]="post.numberOfQuestions"
-            formControlName="answerFor"
-            class="form-control rounded-0"
-          />
-        </label>
+        <div class="d-flex my-3">
+          Komentar je vezan za
+          <select
+            class="mx-2"
+            (change)="answerFor.setValue($event.target.value)"
+          >
+            <option [value]="-1">bilo koje</option>
+            <option
+              *ngFor="let item of createRange(post.numberOfQuestions)"
+              [value]="item"
+              >{{ item }}.</option
+            >
+          </select>
+          pitanje.
+        </div>
 
-        <button class=" btn rounded-0 btn-primary" type="submit">
+        <span class="text-danger">{{ errorMessage }}</span>
+
+        <button
+          class=" btn rounded-0 btn-primary"
+          type="submit"
+          (click)="presubmit()"
+        >
           Kometariši
         </button>
       </form>
-      <div class="d-flex">
+      <div class="d-flex mt-3">
         Komentari vezani za
         <select
           class="mx-2"
           (change)="selectedQuestionNumber = $event.target.value"
         >
-          <option [value]="-1">svako</option>
+          <option [value]="-1">bilo koje</option>
           <option
             *ngFor="let item of createRange(post.numberOfQuestions)"
             [value]="item"
@@ -178,7 +190,7 @@
         class="border p-3 mb-4"
       >
         <ng-container *ngFor="let comment of comments; let i = index">
-          <hr *ngIf="i != 0">
+          <hr *ngIf="i != 0" />
           <div class="d-flex justify-content-between">
             <div class="d-flex flex-grow-1" style="height: 70px;">
               <div
@@ -238,8 +250,7 @@
               <span
                 >Kreirano: {{ comment.date | date: "dd/MM/yyyy HH:mm" }}</span
               >
-              <span *ngIf="comment.answerFor"
-              class="text-right"
+              <span *ngIf="comment.answerFor" class="text-right"
                 >Komentar za pitanje broj {{ comment.answerFor }}.</span
               >
             </div>

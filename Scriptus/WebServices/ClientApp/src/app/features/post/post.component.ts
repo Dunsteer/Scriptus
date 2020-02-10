@@ -9,7 +9,7 @@ import { Post } from "@models/post.model";
 import { PostActions } from "@store/post/actions";
 import { AuthStateManager } from "@store/auth/state";
 import { User } from "@models/user.model";
-import { FormGroup, FormControl, NgForm } from "@angular/forms";
+import { FormGroup, FormControl, NgForm, Validators } from "@angular/forms";
 import { ePostType } from "src/app/_core/enumerators/post-type.enum";
 
 @Component({
@@ -62,7 +62,7 @@ export class PostComponent extends BaseComponent implements OnInit {
     this.clearSearch();
 
     this.commentForm = new FormGroup({
-      text: new FormControl(""),
+      text: new FormControl("", Validators.required),
       images: new FormControl(null),
       answerFor: new FormControl(null)
     });
@@ -76,11 +76,18 @@ export class PostComponent extends BaseComponent implements OnInit {
     return items;
   }
 
+  errorMessage = null;
+
+  presubmit() {
+    this.errorMessage = this.commentForm.valid?null:'Popunite sva obavezna polja (obležena *).'
+  }
+
   submit(e, form: NgForm) {
     const post = this.commentForm.value as Post;
     post.type = ePostType.comment;
     this._store.dispatch(new PostActions.AddComment(this.id, post)).subscribe(
       (state: { post: PostState }) => {
+        this.errorMessage = null;
         form.resetForm();
       },
       err => {

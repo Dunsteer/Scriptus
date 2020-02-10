@@ -7,7 +7,7 @@
 >
   <span class="h5">Kreiranje objave</span>
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Tip:</span>
+    <span class="mr-3" style="width: 100px;">Tip*:</span>
     <select
       formControlName="type"
       class="form-control rounded-0"
@@ -21,7 +21,7 @@
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Naslov:</span>
+    <span class="mr-3" style="width: 100px;">Naslov*:</span>
     <input
       type="text"
       formControlName="name"
@@ -31,7 +31,7 @@
   </label>
 
   <label class="d-flex justify-content-start align-items-center mt-3">
-    <span class="mr-3" style="width: 100px;">Tagovi:</span>
+    <span class="mr-3" style="width: 100px;">Tagovi*:</span>
     <input
       type="text"
       formControlName="tags"
@@ -52,7 +52,7 @@
 
   <ng-container *ngIf="type.value == 1">
     <label class="d-flex justify-content-start align-items-center mt-3">
-      <span class="mr-3" style="width: 100px;">Slike:</span>
+      <span class="mr-3" style="width: 100px;">Slike*:</span>
       <input
         accept="image/x-png,image/gif,image/jpeg"
         type="file"
@@ -63,7 +63,7 @@
     </label>
 
     <label class="d-flex justify-content-start align-items-center mt-3">
-      <span class="mr-3" style="width: 100px;">Broj pitanja:</span>
+      <span class="mr-3" style="width: 100px;">Broj pitanja*:</span>
       <input
         type="number"
         formControlName="numberOfQuestions"
@@ -74,7 +74,7 @@
 
   <ng-container *ngIf="type.value == 2">
     <label class="d-flex justify-content-start align-items-center mt-3">
-      <span class="mr-3" style="width: 100px;">PDF:</span>
+      <span class="mr-3" style="width: 100px;">PDF*:</span>
       <input
         accept="application/pdf"
         type="file"
@@ -83,5 +83,13 @@
       />
     </label>
   </ng-container>
-  <button class=" btn rounded-0 btn-primary" type="submit">Kreiraj</button>
+
+  <span class="text-danger">{{ errorMessage }}</span>
+  <button
+    class=" btn rounded-0 btn-primary"
+    type="submit"
+    (click)="presubmit()"
+  >
+    Kreiraj
+  </button>
 </form>

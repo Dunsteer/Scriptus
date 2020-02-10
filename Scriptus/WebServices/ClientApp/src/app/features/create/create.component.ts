@@ -104,6 +104,12 @@ export class CreateComponent extends BaseComponent implements OnInit {
     }
   }
 
+  errorMessage = null;
+
+  presubmit() {
+    this.errorMessage = this.createForm.valid?null:'Popunite sva obavezna polja (obležena *).'
+  }
+
   submit(e, form: NgForm) {
     const post = this.createForm.value;
     post.tags = (post.tags as string).split(",").map(x => x.trim());
