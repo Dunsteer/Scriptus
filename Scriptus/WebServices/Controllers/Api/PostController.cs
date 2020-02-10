@@ -263,5 +263,22 @@ namespace WebServices.Controllers.Api
 
             return Map(post, false);
         }
+
+        [HttpDelete("{id}/comment/{commentId}")]
+        public async Task<IActionResult> DeleteComment(Guid id, Guid commentId)
+        {
+            var post = await _postService.Get(id);
+
+            if (post != null)
+            {
+                var c = post.Comments.Find(x => x.Id == commentId);
+
+                post.Comments.Remove(c);
+
+                await _postService.Update(id, post);
+            }
+
+            return Map(post, false);
+        }
     }
 }
