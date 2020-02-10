@@ -36,14 +36,14 @@
               <input
                 id="searchInput"
                 #input
-                class="form-control mr-sm-2"
+                class="form-control rounded-0 mr-sm-2"
                 type="search"
                 placeholder="Pretraga"
                 aria-label="Pretraga"
                 style="width: 70%;"
               />
               <button
-                class="btn btn-outline-success my-sm-0"
+                class=" btn rounded-0 btn-outline-success my-sm-0"
                 type="submit"
                 style="width: 30%;"
               >
@@ -74,7 +74,7 @@
 
           <ul class="navbar-nav flex-grow" *ngIf="user$ | async as user">
             <button
-              class="btn btn-outline-primary my-2 my-sm-0 mr-0 mr-sm-2"
+              class=" btn rounded-0 btn-outline-primary my-2 my-sm-0 mr-0 mr-sm-2"
               type="button"
               [routerLink]="['/create']"
             >
@@ -87,6 +87,10 @@
                 [routerLink]="['/user', user.id]"
                 >{{ user.fullName }}</a
               >
+            </li>
+            <li>
+
+              <i (click)="logout()" class="nav-link fas fa-sign-out-alt"></i>
             </li>
           </ul>
         </div>

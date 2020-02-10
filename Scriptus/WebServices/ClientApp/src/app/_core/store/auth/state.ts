@@ -76,6 +76,8 @@ export class AuthStateManager {
 
   @Action(AuthActions.Logout)
   logout(ctx: StateContext<AuthState>, action: AuthActions.Logout) {
+    this._cookie.deleteAll();
+    this._cookie.set('toklen', "1", Date.now())
     return ctx.setState({ user: null });
   }
 

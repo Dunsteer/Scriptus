@@ -2,133 +2,117 @@
 <div class="d-flex flex-column w-100">
   <ng-container *ngIf="found; else notFound">
     <ng-container *ngIf="post$ | async as post; else noPost">
-      <div style="background-color: #ececec;" class="p-3 pb-2">
-        <div class="d-flex justify-content-between">
-          <div class="d-flex flex-grow-1" style="height: 70px;">
-            <div
-              class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
-              style="flex-basis: 50px;"
-            >
-              <ng-container *ngIf="user$ | async as user; else noUser">
-                <i
-                  class="fa fa-chevron-up h5 m-0 pointer"
-                  [class.text-success]="post.voteUp.includes(user.id)"
-                  (click)="voteUp(post.id)"
-                ></i>
-              </ng-container>
-              <ng-template #noUser>
-                <i class="fa fa-chevron-up h5 m-0 pointer"></i>
-              </ng-template>
-              <div class="h5 m-0">
-                {{ (changed || !changed) && reputation(post) }}
+      <div class="border d-flex flex-column w-100">
+        <div style="background-color: #ececec;" class="p-3 pb-2">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-grow-1" style="height: 70px;">
+              <div
+                class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
+                style="flex-basis: 50px;"
+              >
+                <ng-container *ngIf="user$ | async as user; else noUser1">
+                  <i
+                    class="fas fa-chevron-up h5 m-0 pointer"
+                    [class.text-success]="post.voteUp.includes(user.id)"
+                    (click)="voteUp(post.id)"
+                  ></i>
+                </ng-container>
+                <ng-template #noUser1>
+                  <i class="fas fa-chevron-up h5 m-0 pointer"></i>
+                </ng-template>
+                <div class="h5 m-0">
+                  {{ (changed || !changed) && reputation(post) }}
+                </div>
+                <ng-container *ngIf="user$ | async as user; else noUser2">
+                  <i
+                    class="fas fa-chevron-down h5 m-0 pointer"
+                    [class.text-danger]="post.voteDown.includes(user.id)"
+                    (click)="voteDown(post.id)"
+                  ></i>
+                </ng-container>
+                <ng-template #noUser2>
+                  <i class="fas fa-chevron-down h5 m-0 pointer"></i>
+                </ng-template>
               </div>
-              <ng-container *ngIf="user$ | async as user; else noUser">
-                <i
-                  class="fa fa-chevron-down h5 m-0 pointer"
-                  [class.text-danger]="post.voteDown.includes(user.id)"
-                  (click)="voteDown(post.id)"
-                ></i>
-              </ng-container>
-              <ng-template #noUser>
-                <i class="fa fa-chevron-down h5 m-0 pointer"></i>
-              </ng-template>
-            </div>
-            <div class="d-flex h-100" style="flex-basis: 70px;">
-              <img
-                src=""
-                [src]="
-                  post.user.profileImage
-                    ? post.user.profileImage
-                    : 'https://image.flaticon.com/icons/svg/61/61205.svg'
-                "
-                style="width: 100%;"
-              />
-            </div>
-            <div
-              class="d-flex h-100 flex-column justify-content-betweeen pl-4"
-              style="flex-basis: 250px;"
-            >
-              <h5 class="flex-grow-1 m-0 d-flex align-items-center">
-                {{ post.user.fullName }}
-              </h5>
-              <h5
-                class="flex-grow-1 text-primary m-0 d-flex align-items-center"
+              <div class="d-flex h-100" style="flex-basis: 70px;">
+                <img
+                  src=""
+                  [src]="
+                    post.user.profileImage
+                      ? post.user.profileImage
+                      : 'https://image.flaticon.com/icons/svg/61/61205.svg'
+                  "
+                  style="width: 100%;"
+                />
+              </div>
+              <div
+                class="d-flex h-100 flex-column justify-content-betweeen pl-4"
+                style="flex-basis: 250px;"
               >
-                {{ post.user.reputation }}
-              </h5>
+                <h5 class="flex-grow-1 m-0 d-flex align-items-center">
+                  {{ post.user.fullName }}
+                </h5>
+                <h5
+                  class="flex-grow-1 text-primary m-0 d-flex align-items-center"
+                >
+                  {{ post.user.reputation }}
+                </h5>
+              </div>
+            </div>
+            <div class="flex-grow-0 d-flex align-items-center">
+              <div
+                class="d-flex w-100 h-100 justify-content-center align-items-center px-5 h3 border bg-dark text-white"
+              >
+                <span>{{ post.name }}</span>
+              </div>
             </div>
           </div>
-          <div class="flex-grow-0 d-flex align-items-center">
-            <div
-              class="d-flex w-100 h-100 justify-content-center align-items-center px-5 h3 border bg-dark text-white"
-            >
-              <span>{{ post.name }}</span>
+          <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex">
+              <h5>
+                <span
+                  [routerLink]="['/search', tag]"
+                  class="badge rounded-0 mr-2 pointer"
+                  *ngFor="let tag of post.tags; let f = first"
+                  [class.badge-secondary]="f"
+                  [class.badge-primary]="!f"
+                  >{{ tag }}</span
+                >
+              </h5>
+            </div>
+            <div class="h-100 d-flex align-items-center h6">
+              <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
-          <div class="d-flex">
-            <h5>
-              <span
-                [routerLink]="['/search', tag]"
-                class="badge mr-2 pointer"
-                *ngFor="let tag of post.tags; let f = first"
-                [class.badge-secondary]="f"
-                [class.badge-primary]="!f"
-                >{{ tag }}</span
-              >
-            </h5>
-          </div>
-          <div class="h-100 d-flex align-items-center h6">
-            <span>Kreirano: {{ post.date | date: "dd/MM/yyyy HH:mm" }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-column" *ngIf="post.images.length > 0">
-        <div class="w-100 my-4">
+        <div class="w-100 my-4 px-3">
           {{ post.text }}
         </div>
-        <div class="d-flex flex-wrap mb-4">
-          <a
-            *ngFor="let image of post.images"
-            style="width: 100px; height: 100px;"
-            class="mr-2 d-flex align-items-center border bg-dark"
-            (click)="openUrl($event, image)"
-            [href]="image"
-          >
-            <img [src]="image" width="99" />
-          </a>
+        <div class="d-flex flex-column px-3" *ngIf="post.images.length > 0">
+          <div class="d-flex flex-wrap mb-4">
+            <a
+              *ngFor="let image of post.images"
+              style="width: 100px; height: 100px;"
+              class="mr-2 d-flex align-items-center border bg-dark"
+              (click)="openUrl($event, image)"
+              [href]="image"
+            >
+              <img [src]="image" width="99" />
+            </a>
+          </div>
+        </div>
+        <div *ngIf="post.pdf" class="my-4 px-3">
+          Preuzmi .pdf
+          <a (click)="openUrl($event, post.pdf)" [href]="post.pdf"> ovde</a>.
         </div>
       </div>
-      <div *ngIf="post.pdf" class="my-4">
-        Preuzmi .pdf
-        <a (click)="openUrl($event, post.pdf)" [href]="post.pdf"> ovde</a>.
-      </div>
-      <div
-        class="d-flex justify-content-between align-items-center btn-group my-4"
-      >
-        <span class="h5 m-0 mr-3">Prikazi odgovore za:</span>
-        <button
-          [class.btn-primary]="item == selectedQuestionNumber"
-          [class.btn-outline-primary]="item != selectedQuestionNumber"
-          (click)="
-            selectedQuestionNumber =
-              item == selectedQuestionNumber ? null : item
-          "
-          class="flex-grow-1 btn rounded-0"
-          *ngFor="let item of createRange(post.numberOfQuestions)"
-        >
-          <span>{{ item }}</span>
-        </button>
-      </div>
-
       <form
         [formGroup]="commentForm"
         #form="ngForm"
         (submit)="commentForm.valid && submit($event, form)"
         class="my-5 d-flex flex-column justify-content-between"
       >
-        <span class="h5">Komentari</span>
+        <span class="h5">Dodaj komentar:</span>
 
         <label class="d-flex justify-content-start align-items-center mt-3">
           <span class="mr-3" style="width: 100px;">Tekst:</span>
@@ -136,7 +120,7 @@
             type="text"
             formControlName="text"
             placeholder=""
-            class="form-control"
+            class="form-control rounded-0"
           ></textarea>
         </label>
 
@@ -159,13 +143,33 @@
             min="0"
             [max]="post.numberOfQuestions"
             formControlName="answerFor"
-            class="form-control"
+            class="form-control rounded-0"
           />
         </label>
 
-        <button class="btn btn-primary" type="submit">Kometariši</button>
+        <button class=" btn rounded-0 btn-primary" type="submit">
+          Kometariši
+        </button>
       </form>
+      <div class="h5 m-0 mr-3 mt-3">Prikazi komentare vezane za:</div>
 
+      <div
+        class="d-flex justify-content-between align-items-center btn-group my-2"
+      >
+        <button
+          [class.btn-primary]="item == selectedQuestionNumber"
+          [class.btn-outline-primary]="item != selectedQuestionNumber"
+          (click)="
+            selectedQuestionNumber =
+              item == selectedQuestionNumber ? null : item
+          "
+          class="flex-grow-1  btn rounded-0  rounded-0"
+          *ngFor="let item of createRange(post.numberOfQuestions)"
+        >
+          <span>{{ item }}</span>
+        </button>
+      </div>
+      <div class="h5 mt-3">Komentari:</div>
       <div
         *ngIf="
           (selectedQuestionNumber || !selectedQuestionNumber) &&
@@ -183,28 +187,28 @@
                 class="d-flex h-100 flex-column justify-content-between align-items-center mr-2"
                 style="flex-basis: 50px;"
               >
-                <ng-container *ngIf="user$ | async as user; else noUser">
+                <ng-container *ngIf="user$ | async as user; else noUser3">
                   <i
-                    class="fa fa-chevron-up h5 m-0 pointer"
+                    class="fas fa-chevron-up h5 m-0 pointer"
                     [class.text-success]="comment.voteUp.includes(user.id)"
                     (click)="voteUp(comment.id, post.id)"
                   ></i>
                 </ng-container>
-                <ng-template #noUser>
-                  <i class="fa fa-chevron-up h5 m-0 pointer"></i>
+                <ng-template #noUser3>
+                  <i class="fas fa-chevron-up h5 m-0 pointer"></i>
                 </ng-template>
                 <div class="h5 m-0">
                   {{ (changed || !changed) && reputation(comment) }}
                 </div>
-                <ng-container *ngIf="user$ | async as user; else noUser">
+                <ng-container *ngIf="user$ | async as user; else noUser4">
                   <i
-                    class="fa fa-chevron-down h5 m-0 pointer"
+                    class="fas fa-chevron-down h5 m-0 pointer"
                     [class.text-danger]="comment.voteDown.includes(user.id)"
                     (click)="voteDown(comment.id, post.id)"
                   ></i>
                 </ng-container>
-                <ng-template #noUser>
-                  <i class="fa fa-chevron-down h5 m-0 pointer"></i>
+                <ng-template #noUser4>
+                  <i class="fas fa-chevron-down h5 m-0 pointer"></i>
                 </ng-template>
               </div>
               <div class="d-flex h-100" style="flex-basis: 70px;">
@@ -245,7 +249,7 @@
               <h5>
                 <span
                   [routerLink]="['/search', tag]"
-                  class="badge mr-2 pointer"
+                  class="badge rounded-0 mr-2 pointer"
                   *ngFor="let tag of comment.tags; let f = first"
                   [class.badge-secondary]="f"
                   [class.badge-primary]="!f"
@@ -263,10 +267,27 @@
               </div>
             </ng-container>
           </div>
+
+          <div class="w-100 my-4">
+            {{ post.text }}
+          </div>
+          <div class="d-flex flex-column" *ngIf="post.images.length > 0">
+            <div class="d-flex flex-wrap mb-4">
+              <a
+                *ngFor="let image of post.images"
+                style="width: 100px; height: 100px;"
+                class="mr-2 d-flex align-items-center border bg-dark"
+                (click)="openUrl($event, image)"
+                [href]="image"
+              >
+                <img [src]="image" width="99" />
+              </a>
+            </div>
+          </div>
         </ng-container>
       </div>
       <ng-template #noComments>
-        No comments.
+        Nema komentara.
       </ng-template>
     </ng-container>
     <ng-template #noPost>
@@ -274,6 +295,6 @@
     </ng-template>
   </ng-container>
   <ng-template #notFound>
-    Post not found!
+    Tražena objava nije pronađena!
   </ng-template>
 </div>

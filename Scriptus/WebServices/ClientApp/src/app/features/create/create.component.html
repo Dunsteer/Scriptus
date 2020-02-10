@@ -10,12 +10,12 @@
     <span class="mr-3" style="width: 100px;">Tip:</span>
     <select
       formControlName="type"
-      class="form-control"
+      class="form-control rounded-0"
       (change)="typeChanged($event.target.value)"
     >
       <option [value]="-1">Odaberi</option>
       <option *ngFor="let type of allowedTypes" [value]="type">{{
-        type==1?'Ispit':'Skripta'
+        type==1?'Blanket':'Skripta'
       }}</option>
     </select>
   </label>
@@ -26,7 +26,7 @@
       type="text"
       formControlName="name"
       [placeholder]="namePlaceholder"
-      class="form-control"
+      class="form-control rounded-0"
     />
   </label>
 
@@ -36,7 +36,7 @@
       type="text"
       formControlName="tags"
       placeholder="npr. tag 1, tag 2, tag123"
-      class="form-control"
+      class="form-control rounded-0"
     />
   </label>
 
@@ -46,7 +46,7 @@
       type="text"
       formControlName="text"
       placeholder=""
-      class="form-control"
+      class="form-control rounded-0"
     ></textarea>
   </label>
 
@@ -80,9 +80,9 @@
     <input
       type="number"
       formControlName="numberOfQuestions"
-      class="form-control"
+      class="form-control rounded-0"
     />
   </label>
 
-  <button class="btn btn-primary" type="submit">Kreiraj</button>
+  <button class=" btn rounded-0 btn-primary" type="submit">Kreiraj</button>
 </form>
