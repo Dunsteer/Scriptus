@@ -37,7 +37,8 @@ const config: SocketIoConfig = { url: environment.serverUrl, options: {} };
     PostComponent,
     CreateComponent,
     SearchComponent,
-    ReputationPipe
+    ReputationPipe,
+    SafePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
