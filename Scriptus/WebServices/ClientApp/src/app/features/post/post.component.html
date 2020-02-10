@@ -153,7 +153,7 @@
       </form>
       <div class="d-flex">
         Komentari vezani za
-        <select class="mx-2" (change)="selectedQuestionNumber = $event.target.value; test($event.target.value)"> 
+        <select class="mx-2" (change)="selectedQuestionNumber = $event.target.value;"> 
           <option [value]="-1">Svako</option>
           <option
             *ngFor="let item of createRange(post.numberOfQuestions)"

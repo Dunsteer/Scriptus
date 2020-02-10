@@ -84,6 +84,7 @@ export class PostStateManager {
   ) {
     return this._post.removeComment(action.id, action.parentId).pipe(
       map(res => {
+        console.log(res);
         return ctx.setState(
           patch<PostState>({
             post: patch<Post>({

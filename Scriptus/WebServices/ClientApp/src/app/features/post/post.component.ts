@@ -80,7 +80,9 @@ export class PostComponent extends BaseComponent implements OnInit {
     const post = this.commentForm.value as Post;
     post.type = ePostType.comment;
     this._store.dispatch(new PostActions.AddComment(this.id, post)).subscribe(
-      (state: { post: PostState }) => {},
+      (state: { post: PostState }) => {
+        form.resetForm();
+      },
       err => {
         console.error(err);
       }
@@ -88,9 +90,7 @@ export class PostComponent extends BaseComponent implements OnInit {
   }
 
   filterComments(comments: Post[]) {
-    console.log(comments);
     return comments.filter(comment => {
-      console.log(comment);
       return (
         comment.answerFor == this.selectedQuestionNumber ||
         this.selectedQuestionNumber == -1
@@ -123,12 +123,13 @@ export class PostComponent extends BaseComponent implements OnInit {
   refresh() {
     this.changed = !this.changed;
   }
-  test(e) {
-    console.log(e);
-  }
 
-  remove(id: string) {
-    this._store.dispatch(new PostActions.Remove(id));
+  remove(id: string, parentId?: string) {
+    if (parentId) {
+      this._store.dispatch(new PostActions.RemoveComment(id, parentId));
+    } else {
+      this._store.dispatch(new PostActions.Remove(id));
+    }
   }
 
   openUrl(e: MouseEvent, url: string) {
