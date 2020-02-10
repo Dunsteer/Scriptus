@@ -77,6 +77,28 @@ export class PostStateManager {
     );
   }
 
+  @Action(PostActions.RemoveComment)
+  removeComment(
+    ctx: StateContext<PostState>,
+    action: PostActions.RemoveComment
+  ) {
+    return this._post.removeComment(action.id, action.parentId).pipe(
+      map(res => {
+        return ctx.setState(
+          patch<PostState>({
+            post: patch<Post>({
+              comments: removeItem<Post>(x => x.id == action.id)
+            })
+          })
+        );
+      }),
+      catchError(err => {
+        console.error(err);
+        throw of(err);
+      })
+    );
+  }
+
   @Action(PostActions.Create)
   create(ctx: StateContext<PostState>, action: PostActions.Create) {
     return this._post.create(action.post).pipe(

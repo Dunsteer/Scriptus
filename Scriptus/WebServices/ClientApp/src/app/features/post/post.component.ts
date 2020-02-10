@@ -21,7 +21,7 @@ export class PostComponent extends BaseComponent implements OnInit {
   @Select(PostStateManager.post) post$: Observable<Post>;
   id: string;
   found = true;
-  selectedQuestionNumber: number = null;
+  selectedQuestionNumber: number = -1;
   changed = true;
 
   commentForm: FormGroup;
@@ -93,7 +93,7 @@ export class PostComponent extends BaseComponent implements OnInit {
       console.log(comment);
       return (
         comment.answerFor == this.selectedQuestionNumber ||
-        this.selectedQuestionNumber == null
+        this.selectedQuestionNumber == -1
       );
     });
   }
@@ -122,6 +122,9 @@ export class PostComponent extends BaseComponent implements OnInit {
 
   refresh() {
     this.changed = !this.changed;
+  }
+  test(e) {
+    console.log(e);
   }
 
   remove(id: string) {

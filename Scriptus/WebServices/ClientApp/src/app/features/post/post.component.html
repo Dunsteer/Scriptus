@@ -55,7 +55,7 @@
                 <h5
                   class="flex-grow-1 text-primary m-0 d-flex align-items-center"
                 >
-                  {{ post.user.reputation }}
+                  {{ post.user.reputation | reputation }}
                 </h5>
               </div>
             </div>
@@ -110,7 +110,7 @@
         [formGroup]="commentForm"
         #form="ngForm"
         (submit)="commentForm.valid && submit($event, form)"
-        class="my-5 d-flex flex-column justify-content-between"
+        class="my-5 d-flex flex-column justify-content-between p-3 border"
       >
         <span class="h5">Dodaj komentar:</span>
 
@@ -151,10 +151,25 @@
           Kometariši
         </button>
       </form>
-      <div class="h5 m-0 mr-3 mt-3">Prikazi komentare vezane za:</div>
+      <div class="d-flex">
+        Komentari vezani za
+        <select class="mx-2" (change)="selectedQuestionNumber = $event.target.value; test($event.target.value)"> 
+          <option [value]="-1">Svako</option>
+          <option
+            *ngFor="let item of createRange(post.numberOfQuestions)"
+            [value]="item"
+            >{{ item }}.</option
+          >
+        </select>
+        pitanje.
+      </div>
 
+      <!-- <div *ngIf="post.comments.length > 0" class="h5 m-0 mr-3 mt-3">
+        Prikaži komentare vezane za:
+      </div>
       <div
         class="d-flex justify-content-between align-items-center btn-group my-2"
+        *ngIf="post.comments.length > 0"
       >
         <button
           [class.btn-primary]="item == selectedQuestionNumber"
@@ -163,12 +178,12 @@
             selectedQuestionNumber =
               item == selectedQuestionNumber ? null : item
           "
-          class="flex-grow-1  btn rounded-0  rounded-0"
+          class="flex-grow-1 btn rounded-0  rounded-0"
           *ngFor="let item of createRange(post.numberOfQuestions)"
         >
           <span>{{ item }}</span>
         </button>
-      </div>
+      </div> -->
       <div class="h5 mt-3">Komentari:</div>
       <div
         *ngIf="
@@ -177,7 +192,7 @@
             filterComments(post.comments) as comments;
           else noComments
         "
-        class="border p-3"
+        class="border p-3 mb-4"
       >
         <ng-container *ngFor="let comment of comments; let i = index">
           <div class="d-flex justify-content-between">
@@ -231,7 +246,7 @@
                 <h5
                   class="flex-grow-1 text-primary m-0 d-flex align-items-center"
                 >
-                  {{ comment.user.reputation }}
+                  {{ comment.user.reputation | reputation }}
                 </h5>
               </div>
             </div>
@@ -242,28 +257,15 @@
             </div>
           </div>
           <div
-            class="d-flex justify-content-between mt-3"
-            *ngIf="comment.tags && comment.tags.length > 0"
+            class="d-flex justify-content-end mt-3"
           >
-            <div class="d-flex">
-              <h5>
-                <span
-                  [routerLink]="['/', tag]"
-                  class="badge rounded-0 mr-2 pointer"
-                  *ngFor="let tag of comment.tags; let f = first"
-                  [class.badge-secondary]="f"
-                  [class.badge-primary]="!f"
-                  >{{ tag }}</span
-                >
-              </h5>
-            </div>
             <ng-container *ngIf="user$ | async as user">
               <div
                 *ngIf="user.id == comment.user.id || hasPermission(user)"
                 class="text-danger pointer"
-                (click)="remove(comment.id)"
+                (click)="remove(comment.id, post.id)"
               >
-                <i class="fa fa-times h5"></i>
+                <i class="fas fa-times h5"></i>
               </div>
             </ng-container>
           </div>
