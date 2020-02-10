@@ -63,7 +63,7 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                PostVoteUp(post, UserId);
+                await PostVoteUp(post, UserId);
 
                 await _postService.Update(id, post);
             }
@@ -78,7 +78,7 @@ namespace WebServices.Controllers.Api
 
             if (post != null)
             {
-                PostVoteDown(post, UserId);
+                await PostVoteDown(post, UserId);
 
                 await _postService.Update(id, post);
             }
@@ -139,7 +139,7 @@ namespace WebServices.Controllers.Api
                 var comment = post.Comments.FirstOrDefault(x => x.Id == commentId);
                 if (comment != null)
                 {
-                    PostVoteUp(comment, UserId);
+                    await PostVoteUp(comment, UserId);
 
                     await _postService.Update(id, post);
 
@@ -160,7 +160,7 @@ namespace WebServices.Controllers.Api
                 var comment = post.Comments.FirstOrDefault(x => x.Id == commentId);
                 if (comment != null)
                 {
-                    PostVoteDown(comment, UserId);
+                    await PostVoteDown(comment, UserId);
 
                     await _postService.Update(id, post);
 
@@ -171,48 +171,59 @@ namespace WebServices.Controllers.Api
             return Map(post, false);
         }
 
-        private void PostVoteUp(Post post, Guid UserId)
+        private async Task PostVoteUp(Post post, Guid UserId)
         {
             if (post != null)
             {
+                var user = await _userService.Get(UserId);
+
                 if (post.VoteUp != null && !post.VoteUp.Contains(UserId))
                 {
                     post.VoteUp.Add(UserId);
+                    user.Reputation++;
                 }
                 else
                 {
                     if (post.VoteUp != null)
                     {
                         post.VoteUp.Remove(UserId);
+                        user.Reputation--;
                     }
                 }
 
                 if (post.VoteDown != null && post.VoteDown.Contains(UserId))
                 {
                     post.VoteDown.Remove(UserId);
+                    user.Reputation++;
                 }
+
+                await _userService.Update(UserId,user);
             }
         }
 
-        private void PostVoteDown(Post post, Guid UserId)
+        private async Task PostVoteDown(Post post, Guid UserId)
         {
             if (post != null)
             {
+                var user = await _userService.Get(UserId);
                 if (post.VoteDown != null && !post.VoteDown.Contains(UserId))
                 {
                     post.VoteDown.Add(UserId);
+                    user.Reputation--;
                 }
                 else
                 {
                     if (post.VoteDown != null)
                     {
                         post.VoteDown.Remove(UserId);
+                        user.Reputation++;
                     }
                 }
 
                 if (post.VoteUp != null && post.VoteUp.Contains(UserId))
                 {
                     post.VoteUp.Remove(UserId);
+                    user.Reputation--;
                 }
             }
         }
